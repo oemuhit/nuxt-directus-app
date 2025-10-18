@@ -24,6 +24,8 @@ interface ModuleOptions {
   auth: {
     enabled: boolean;
     enableGlobalAuthMiddleware: boolean;
+    userFields: any; // Select user fields
+
     redirect: {
       home: string;
       login: string;
