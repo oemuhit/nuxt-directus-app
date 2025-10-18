@@ -31,7 +31,7 @@ defineProps<{
           />
         </div>
         <div class="shrink-0 mt-4 md:mt-0">
-          <BlocksButtonGroup
+          <ButtonGroup
             v-if="data.button_group"
             :data="data.button_group as BlockButtonGroup"
           />
