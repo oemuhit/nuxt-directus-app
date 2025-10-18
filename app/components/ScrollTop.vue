@@ -2,7 +2,7 @@
 const { progress, scrollToTop } = useScroll();
 </script>
 <template>
-  <div class="fixed bottom-4 right-4 z-50 flex items-center">
+  <div class="fixed bottom-4 right-4 z-10 flex items-center">
     <div class="relative">
       <RadialProgress
         :radius="25"

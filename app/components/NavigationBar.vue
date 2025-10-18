@@ -7,6 +7,8 @@ interface NavigationItem {
   url?: string;
   page?: { permalink: string };
   children?: NavigationItem[];
+  icon?: string;
+  label?: string;
 }
 
 // Using template ref to expose the navigation bar to the layout for visual editing
@@ -49,9 +51,16 @@ const handleLinkClick = () => {
 </script>
 
 <template>
+  <!-- hero 
+ 
+fixed sticky
+
+bg-background 
+
+-->
   <header
     ref="navigationRef"
-    class="fixed top-0 z-50 w-full bg-background text-foreground"
+    class="sticky md:fixed top-0 z-50 w-full text-foreground"
   >
     <Container class="flex items-center justify-between p-4">
       <NuxtLink to="/" class="flex-shrink-0">
@@ -92,7 +101,7 @@ const handleLinkClick = () => {
               v-for="section in props.navigation.items"
               :key="section.id"
             >
-              <template v-if="section.children?.length">
+              <template v-if="false && section.children?.length">
                 <NavigationMenuTrigger
                   class="focus:outline-none font-heading !text-nav hover:bg-background hover:text-accent"
                 >
@@ -105,7 +114,7 @@ const handleLinkClick = () => {
                     <li v-for="child in section.children" :key="child.id">
                       <NavigationMenuLink as-child>
                         <NuxtLink
-                          :to="child.page?.permalink || child.url || '#'"
+                          :to="getNavItemUrl(child)"
                           class="font-heading text-nav"
                         >
                           {{ child.title }}
@@ -116,10 +125,61 @@ const handleLinkClick = () => {
                 </NavigationMenuContent>
               </template>
 
+              <Popover v-if="section.children?.length">
+                <!-- === Trigger Button === -->
+                <PopoverTrigger as-child>
+                  <NuxtLink
+                    class="menu-link font-heading text-nav p-2 cursor-pointer"
+                  >
+                    {{ section.title }}
+                    <Icon
+                      name="heroicons:chevron-down"
+                      class="ml-1 w-5 h-5 text-gray-400"
+                    />
+                  </NuxtLink>
+                </PopoverTrigger>
+
+                <!-- === Dropdown Content === -->
+                <PopoverContent
+                  class="z-50 mt-2 w-screen max-w-md bg-gray-800 shadow-lg rounded-2xl border border-gray-700 p-4 animate-in fade-in slide-in-from-top-2"
+                  align="start"
+                >
+                  <div class="grid gap-2">
+                    <NuxtLink
+                      v-for="childItem in section.children"
+                      :key="childItem.id"
+                      :to="getNavItemUrl(childItem)"
+                      class="flex items-start gap-4 p-4 rounded-xl transition duration-150 hover:bg-gray-900 group"
+                    >
+                      <div
+                        class="flex items-center justify-center flex-none w-11 h-11 p-2 border border-primary rounded-lg"
+                      >
+                        <Icon
+                          v-if="childItem.icon"
+                          :name="convertIconName(childItem.icon)"
+                          class="w-8 h-8 text-primary"
+                        />
+                      </div>
+
+                      <div class="flex flex-col">
+                        <p class="font-medium text-white font-display">
+                          {{ childItem.title }}
+                        </p>
+                        <p
+                          v-if="childItem.label"
+                          class="mt-1 text-sm text-gray-400 leading-tight"
+                        >
+                          {{ childItem.label }}
+                        </p>
+                      </div>
+                    </NuxtLink>
+                  </div>
+                </PopoverContent>
+              </Popover>
               <NavigationMenuLink v-else as-child>
                 <NuxtLink
                   :to="section.page?.permalink || section.url || '#'"
-                  class="font-heading text-nav p-2"
+                  class="menu-link font-heading text-nav p-2"
                 >
                   {{ section.title }}
                 </NuxtLink>
@@ -128,66 +188,41 @@ const handleLinkClick = () => {
           </NavigationMenuList>
         </NavigationMenu>
 
-        <div class="flex md:hidden">
-          <DropdownMenu v-model:open="menuOpen">
-            <DropdownMenuTrigger as-child>
-              <Button
-                variant="link"
-                size="icon"
-                aria-label="Open menu"
-                class="text-black dark:text-white dark:hover:text-accent"
-              >
-                <Menu />
-              </Button>
-            </DropdownMenuTrigger>
+        <MobileMenu
+          :is-open="menuOpen"
+          v-if="props.navigation"
+          :navigation="props.navigation"
+        />
 
-            <DropdownMenuContent
-              align="start"
-              class="top-full w-screen p-6 shadow-md max-w-full overflow-hidden bg-background"
-            >
-              <div class="flex flex-col gap-4">
-                <div
-                  v-for="section in props.navigation.items"
-                  :key="section.id"
-                >
-                  <Collapsible v-if="section.children?.length">
-                    <CollapsibleTrigger
-                      class="font-heading text-nav hover:text-accent w-full text-left flex items-center focus:outline-none"
-                    >
-                      <span>{{ section.title }}</span>
-                      <ChevronDown
-                        class="size-4 ml-1 hover:rotate-180 active:rotate-180 focus:rotate-180"
-                      />
-                    </CollapsibleTrigger>
-                    <CollapsibleContent class="ml-4 mt-2 flex flex-col gap-2">
-                      <NuxtLink
-                        v-for="child in section.children"
-                        :key="child.id"
-                        :to="child.page?.permalink || child.url || '#'"
-                        class="font-heading text-nav"
-                        @click="handleLinkClick"
-                      >
-                        {{ child.title }}
-                      </NuxtLink>
-                    </CollapsibleContent>
-                  </Collapsible>
+        <!-- Mobile Menu -->
 
-                  <NuxtLink
-                    v-else
-                    :to="section.page?.permalink || section.url || '#'"
-                    class="font-heading text-nav"
-                    @click="handleLinkClick"
-                  >
-                    {{ section.title }}
-                  </NuxtLink>
-                </div>
-              </div>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+        <Button
+          @click="menuOpen = !menuOpen"
+          variant="link"
+          size="icon"
+          aria-label="Open menu"
+          class="md:hidden text-black dark:text-white dark:hover:text-accent cursor-pointer"
+        >
+          <Icon name="heroicons:bars-3" class="w-6 h-6" />
+        </Button>
 
-        <ThemeToggle />
+        <ThemeToggle class="cursor-pointer" />
       </nav>
     </Container>
+
+    <div
+      class="-z-10 absolute top-0 left-0 w-full h-full bg-black opacity-80"
+    ></div>
   </header>
 </template>
+
+<style scoped>
+@reference "@/assets/tailwind.css";
+/* Menu Link Component */
+.menu-link {
+  @apply text-white bg-accent    hover:bg-accent/50 transition duration-150 font-medium hover:text-white py-2 px-3 inline-flex items-center;
+
+  outline: none;
+  border-radius: var(--radius-md);
+}
+</style>

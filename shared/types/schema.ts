@@ -379,6 +379,8 @@ export interface Navigation {
 }
 
 export interface NavigationItem {
+  icon?: string;
+  label?: string;
   /** @primaryKey */
   id: string;
   /** @description Navigation menu that the individual links belong to. */
