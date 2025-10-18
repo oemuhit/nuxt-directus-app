@@ -25,6 +25,8 @@ const components: Record<string, any> = {
   block_posts: resolveComponent("Posts"),
   block_form: resolveComponent("FormBlock"),
   block_vertical_menu: resolveComponent("VerticalMenu"),
+  block_steps: resolveComponent("Steps"),
+  block_cta: resolveComponent("Cta"),
 };
 
 const Component = computed(() => components[props.block.collection] || null);

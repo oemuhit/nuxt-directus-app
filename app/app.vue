@@ -1,5 +1,6 @@
 <template>
   <div>
+    <DevToolbar />
     <NuxtLayout>
       <NuxtLoadingIndicator
         color="repeating-linear-gradient(to right,#FF99DD

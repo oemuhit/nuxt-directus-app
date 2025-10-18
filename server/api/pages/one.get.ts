@@ -157,6 +157,50 @@ export default defineEventHandler(async (event) => {
                         ],
                       },
                     ],
+
+                    block_steps: [
+                      "id",
+                      "title",
+                      "headline",
+                      "show_step_numbers",
+                      "alternate_image_position",
+                      {
+                        steps: [
+                          "id",
+                          "title",
+                          "content",
+                          "image",
+                          {
+                            button_group: [
+                              "*",
+                              {
+                                buttons: [
+                                  "*",
+                                  { page: ["permalink"], post: ["slug"] },
+                                ],
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                    block_cta: [
+                      "id",
+                      "title",
+                      "headline",
+                      "content",
+                      {
+                        button_group: [
+                          "*",
+                          {
+                            buttons: [
+                              "*",
+                              { page: ["permalink"], post: ["slug"] },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
                   },
                 },
               ],

@@ -167,6 +167,7 @@ function handleClick(item: BlockVerticalMenuItem) {
  -->
               <span class="ml-2 show">{{ item.title }}</span>
             </div>
+            <div class="invisible">#</div>
           </div>
         </motion.div>
       </div>
