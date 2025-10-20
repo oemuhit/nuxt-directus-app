@@ -212,16 +212,17 @@ bg-background
 
     <!--TODO: Add a background color to the navigation bar when the menu is open-->
     <div
-      class="-z-10 absolute top-0 left-0 w-full h-full _bg-black _opacity-80  bg-white opacity-100 dark:opacity-100 dark:bg-black"
+      class="-z-10 absolute top-0 left-0 w-full h-full _bg-black _opacity-80 bg-white opacity-100 dark:opacity-100 dark:bg-black"
     ></div>
   </header>
 </template>
 
 <style scoped>
-@reference "@/assets/tailwind.css";
+@reference "~/assets/tailwind.css";
+
 /* Menu Link Component */
 .menu-link {
-  @apply text-white bg-accent    hover:bg-accent/50 transition duration-150 font-medium hover:text-white py-2 px-3 inline-flex items-center;
+  @apply text-white bg-accent  hover:bg-accent/50 transition duration-150 font-medium hover:text-white py-2 px-3 inline-flex items-center;
 
   outline: none;
   border-radius: var(--radius-md);

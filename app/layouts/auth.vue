@@ -5,7 +5,7 @@ definePageMeta({
 </script>
 <template>
   <div
-    class="relative flex min-h-screen overflow-hidden antialiased transition duration-150 bg-white visual-effects bg-gradient-to-br from-white to-gray-100 dark:from-gray-950 dark:to-gray-700"
+    class="authpanel relative flex overflow-hidden antialiased transition duration-150 bg-white visual-effects bg-gradient-to-br from-white to-gray-100 dark:from-gray-950 dark:to-gray-700"
   >
     <div
       class="flex flex-col justify-center flex-1 px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24"
@@ -29,13 +29,13 @@ definePageMeta({
     </div>
   </div>
 </template>
-<style>
-html {
-  @apply h-full;
+<style scoped>
+@reference "~/assets/tailwind.css";
+
+.authpanel {
+  @apply min-h-screen;
 }
-body {
-  @apply h-full;
-}
+
 #__nuxt {
   @apply h-full;
   overflow-y: auto !important;

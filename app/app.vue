@@ -6,11 +6,6 @@
       color="repeating-linear-gradient(to right,#FF99DD
     0%,#94a3b8 100%)"
     />
-
-
-
-    
-    
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
@@ -41,5 +36,10 @@ useHead({
   font-family: Cinzel, sans-serif;
   font-weight: 900;
   font-style: italic;
+}
+
+@reference "~/assets/tailwind.css";
+.bgred {
+  @apply bg-red-300;
 }
 </style>
