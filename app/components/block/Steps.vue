@@ -76,6 +76,7 @@ const steps = computed(() => {
               :content="step.title"
               size="sm"
             />
+
             <TypographyProse
               v-if="step.content"
               :content="step.content"

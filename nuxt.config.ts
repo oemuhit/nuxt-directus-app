@@ -11,11 +11,19 @@ export default defineNuxtConfig({
       pathPrefix: false,
     },
     { path: "~/components", pathPrefix: false },
-    { path: "~/components/block", pathPrefix: false },
+    { path: "~/components/block", pathPrefix: true },
     { path: "~/components/shared", pathPrefix: false },
     { path: "~/components/base", pathPrefix: false },
     { path: "~/components/forms", pathPrefix: false },
   ],
+
+  routeRules: {
+    "/proxy/example/**": { proxy: "https://tr.wikipedia.org/" },
+
+    // '/**': {
+    // 	prerender: true,
+    // },
+  },
 
   modules: [
     "@nuxt/eslint",

@@ -55,6 +55,7 @@ defineProps<HeroProps>();
           "
         />
         <Headline
+          class="lg:text-headline-anfen"
           :headline="data.headline"
           :data-directus="
             setAttr({

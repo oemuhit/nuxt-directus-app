@@ -13,6 +13,10 @@ const containerClasses = computed(() => cn("flex gap-4", props.className));
 </script>
 <template>
   <div v-if="buttons?.length" :class="containerClasses">
-    <Button v-for="(button, index) in buttons" :key="index" v-bind="button" />
+    <BaseButton
+      v-for="(button, index) in buttons"
+      :key="index"
+      v-bind="button"
+    />
   </div>
 </template>

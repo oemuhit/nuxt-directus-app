@@ -39,6 +39,39 @@ export default defineEventHandler(async (event) => {
                 "hide_block",
                 {
                   item: {
+                    block_faq: ["id", "tagline", "headline", "faqs"],
+
+                    block_row_sequential: [
+                      "id",
+                      "tagline",
+                      "headline",
+                      "content",
+                      "bg_type",
+                      "bg_color",
+                      "bg_image",
+                      "mouse_aware_bg",
+                      "full_width",
+                      "template",
+                      {
+                        button: ["*", { page: ["permalink"], post: ["slug"] }],
+                      },
+                    ],
+                    block_row_vertical: [
+                      "id",
+                      "tagline",
+                      "headline",
+                      "content",
+                      "bg_type",
+                      "bg_color",
+                      "bg_image",
+                      "mouse_aware_bg",
+                      "full_width",
+                      "template",
+                      {
+                        button: ["*", { page: ["permalink"], post: ["slug"] }],
+                      },
+                    ],
+
                     block_vertical_menu: [
                       "id",
 

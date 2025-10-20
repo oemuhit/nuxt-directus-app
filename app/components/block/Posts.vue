@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import type { Post } from "#shared/types/schema";
+
 import {
   ChevronsLeft,
   ChevronsRight,
   ChevronLeft,
   ChevronRight,
 } from "lucide-vue-next";
+import { PaginationListItem, PaginationPrev } from "reka-ui";
 
 interface PostsProps {
   data: {
@@ -138,7 +140,12 @@ const { setAttr } = useVisualEditing();
         <p v-else class="text-center text-gray-500">No posts available.</p>
       </div>
       <ClientOnly>
-        <Pagination v-if="totalPages > 1 && posts?.length" class="mt-6">
+        {{ posts?.length }} {{ totalPages }} {{ currentPage }}
+        <Pagination
+          :items-per-page="perPage"
+          v-if="totalPages > 1 && posts?.length"
+          class="mt-6"
+        >
           <div
             v-if="totalPages"
             class="flex items-center justify-center space-x-2"

@@ -4,17 +4,24 @@ import { NuxtLink } from "#components";
 import { buttonVariants } from "~/components/ui/button";
 import { ArrowRight, Plus } from "lucide-vue-next";
 import { cn } from "@@/shared/utils";
-import Button from "../ui/button/Button.vue";
-
+/* import Button from "../ui/button/Button.vue";
+ */
 export interface ButtonProps {
   id: string;
   label?: string | null;
-  variant?: string | null;
+  variant?:
+    | "default"
+    | "outline"
+    | "soft"
+    | "ghost"
+    | "link"
+    | "destructive"
+    | null;
   url?: string | null;
   type?: "page" | "post" | "url" | "submit" | null;
   page?: { permalink: string | null };
   post?: { slug: string | null };
-  size?: "default" | "sm" | "lg" | "icon";
+  // size?: "default" | "sm" | "lg" | "icon";
   icon?: "arrow" | "plus";
   customIcon?: any;
   iconPosition?: "left" | "right";
@@ -22,6 +29,19 @@ export interface ButtonProps {
   disabled?: boolean;
   block?: boolean;
   target?: "_blank" | "_self" | "_parent" | "_top";
+  size?:
+    | "default"
+    | "sm"
+    | "lg"
+    | "icon"
+    | "icon-sm"
+    | "icon-lg"
+    | "icon-xl"
+    | "square"
+    | "pill"
+    | "link"
+    | "xs"
+    | "xl";
 }
 
 const props = withDefaults(defineProps<ButtonProps>(), {
@@ -64,7 +84,7 @@ const linkComponent = computed(() => {
 <template>
   <Button
     :variant="variant as any"
-    :size="size"
+    :size="size ?? 'default'"
     :class="buttonClasses"
     :disabled="disabled"
     :as="linkComponent"

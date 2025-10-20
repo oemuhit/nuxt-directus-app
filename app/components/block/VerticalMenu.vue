@@ -159,7 +159,7 @@ function handleClick(item: BlockVerticalMenuItem) {
             />
           </div>
 
-          <div class="dh1 flex flex-col">
+          <div class="dh1 flex flex-col font-heading">
             <div class="text-white hide md:inline">{{ item.headline }}</div>
 
             <div>

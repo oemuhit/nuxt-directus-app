@@ -9,13 +9,14 @@
   --card-foreground: oklch(0.141 0.005 285.823);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.141 0.005 285.823);
-  --primary: #6644ff; /* oklch(0.21 0.006 285.885);*/
+  --primary: darkorange; /* oklch(0.21 0.006 285.885);*/
+
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.967 0.001 286.375);
   --secondary-foreground: oklch(0.21 0.006 285.885);
   --muted: oklch(0.967 0.001 286.375);
   --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: #6644ff; /* oklch(0.967 0.001 286.375);*/
+  --accent: darkorange; /* oklch(0.967 0.001 286.375);*/
   --accent-foreground: oklch(0.21 0.006 285.885);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.577 0.245 27.325);
@@ -54,6 +55,16 @@
 }
 
 @theme inline {
+  --color-primary-100: color-mix(in oklch, var(--primary) 40%, white);
+  --color-primary-200: color-mix(in oklch, var(--primary) 60%, white);
+  --color-primary-300: color-mix(in oklch, var(--primary) 80%, white);
+  --color-primary-400: color-mix(in oklch, var(--primary) 90%, white);
+  --color-primary-500: var(--primary);
+  --color-primary-600: color-mix(in oklch, var(--primary) 85%, black);
+  --color-primary-700: color-mix(in oklch, var(--primary) 70%, black);
+  --color-primary-800: color-mix(in oklch, var(--primary) 50%, black);
+  --color-primary-900: color-mix(in oklch, var(--primary) 30%, black);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -80,13 +91,15 @@
   --radius-xl: calc(var(--radius) + 4px);
 
   /* Fonts */
-  --font-heading: "Poppins", sans-serif;
-  --font-sans: "Inter", sans-serif;
+  --font-heading: "Goldman", sans-serif;
+  --font-sans: "Exo 2", sans-serif;
   --font-code: "Fira Mono", monospace;
 
   /* Font Sizes: [font-size line-height] */
   --text-tagline: 24px;
   --text-headline: 56px;
+  --text-headline-anfen: 72px;
+
   --text-h1: 56px;
   --text-h2: 36px;
   --text-h3: 24px;
@@ -95,28 +108,29 @@
   --text-bold: 16px;
   --text-nav: 16px;
   --text-code: 14px;
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--reka-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--reka-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
+  /* Base styles */
 
-html {
-  color-scheme: light dark;
-}
-html.dark {
-  color-scheme: dark;
-}
-html.light {
-  color-scheme: light;
-}
-
-@layer base {
   * {
     @apply border-border outline-ring/50;
   }

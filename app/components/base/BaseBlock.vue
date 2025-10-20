@@ -27,6 +27,9 @@ const components: Record<string, any> = {
   block_vertical_menu: resolveComponent("VerticalMenu"),
   block_steps: resolveComponent("Steps"),
   block_cta: resolveComponent("Cta"),
+  block_row_vertical: resolveComponent("RowVertical"),
+  block_row_sequential: resolveComponent("RowSequential"),
+  block_faq: resolveComponent("Faq"),
 };
 
 const Component = computed(() => components[props.block.collection] || null);

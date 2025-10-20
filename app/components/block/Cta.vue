@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { BlockButtonGroup, BlockCta } from "@@/shared/types/schema";
+import Button, { type ButtonProps } from "../base/BaseButton.vue";
 
 defineProps<{
   data: BlockCta;
@@ -30,10 +31,11 @@ defineProps<{
             class="mt-2"
           />
         </div>
+
         <div class="shrink-0 mt-4 md:mt-0">
           <ButtonGroup
             v-if="data.button_group"
-            :data="data.button_group as BlockButtonGroup"
+            :buttons="data.button_group?.buttons as ButtonProps[]"
           />
         </div>
       </div>

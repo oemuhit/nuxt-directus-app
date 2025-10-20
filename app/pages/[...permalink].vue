@@ -73,7 +73,6 @@ onMounted(() => {
 <template>
   <NuxtErrorBoundary>
     <PageBuilder v-if="pageBlocks" :sections="pageBlocks" />
-    {{ isVisualEditingEnabled }}
     <div
       v-if="isVisualEditingEnabled && page"
       class="fixed z-50 w-full bottom-4 left-0 right-0 p-4 flex justify-center items-center gap-2"

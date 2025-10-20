@@ -18,5 +18,16 @@
     "titleBar.inactiveBackground": "#ff000099",
     "titleBar.inactiveForeground": "#e7e7e799"
   },
-  "peacock.color": "red"
+  "peacock.color": "red",
+  "folder-color.pathColors": [
+    {
+      "folderPath": "nuxt-app/app/",
+      "color": "foldercolorizer.color_660000",
+      "isFolderOnly": true
+    },
+    {
+      "folderPath": "nuxt-app/app/pages/",
+      "color": "foldercolorizer.color_00cccc"
+    }
+  ]
 }

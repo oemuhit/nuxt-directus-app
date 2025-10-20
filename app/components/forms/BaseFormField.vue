@@ -56,8 +56,11 @@ const getComponentProps = (field: FormField) => {
         :for="field.name ?? ''"
         class="flex items-center justify-between"
       >
-        <div class="flex items-center space-x-1 h-[20px]">
-          <span v-if="field.type !== 'checkbox'">{{ field.label ?? "" }}</span>
+        <div
+          v-if="field.type !== 'checkbox'"
+          class="flex items-center space-x-1 h-[20px]"
+        >
+          <span>{{ field.label ?? "" }}</span>
           <TooltipProvider v-if="field.help">
             <Tooltip>
               <TooltipTrigger>

@@ -210,8 +210,9 @@ bg-background
       </nav>
     </Container>
 
+    <!--TODO: Add a background color to the navigation bar when the menu is open-->
     <div
-      class="-z-10 absolute top-0 left-0 w-full h-full bg-black opacity-80"
+      class="-z-10 absolute top-0 left-0 w-full h-full _bg-black _opacity-80  bg-white opacity-100 dark:opacity-100 dark:bg-black"
     ></div>
   </header>
 </template>

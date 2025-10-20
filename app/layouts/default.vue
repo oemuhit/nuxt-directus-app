@@ -61,7 +61,8 @@ onMounted(() => {
       :navigation="siteData.headerNavigation"
       :globals="siteData.globals"
     />
-    <NuxtPage />
+    <slot />
+
     <Footer
       v-if="siteData?.footerNavigation"
       ref="footerRef"

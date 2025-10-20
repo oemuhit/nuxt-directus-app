@@ -4,7 +4,7 @@ import type {
   BlockButton,
   Page,
   Post,
-} from "#shared/types/schema";
+} from "@@/shared/types/schema";
 
 defineProps<{
   data: BlockButtonGroup;
@@ -24,24 +24,19 @@ function getUrl(button: BlockButton): string | undefined {
 }
 </script>
 <template>
-  <!-- 	justify-${data.alignment}
-
-      :color="button?.color"
-
+  <!-- justify-${data.alignment} 
  -->
-  <div
-    :class="`flex flex-col  space-y-4 md:space-x-4 md:flex-row md:space-y-0`"
-  >
+  <div :class="`flex flex-col space-y-4 md:space-x-4 md:flex-row md:space-y-0`">
     <Button
       v-for="button in data.buttons as BlockButton[]"
       :key="button.id"
       @click="navigateTo(getUrl(button))"
+      variant="default"
+      :url="button?.url"
       :target="button?.url ? '_blank' : '_self'"
       :label="button?.label ?? undefined"
-      size="lg"
-      class="cursor-pointer"
+      size="default"
     >
-      {{ button?.label }}
       <Icon name="material-symbols:arrow-forward-rounded" />
     </Button>
   </div>
