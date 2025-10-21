@@ -1,8 +1,4 @@
-<script setup lang="ts">
-definePageMeta({
-  middleware: ["guest"],
-});
-</script>
+<script setup lang="ts"></script>
 <template>
   <div
     class="authpanel relative flex overflow-hidden antialiased transition duration-150 bg-white visual-effects bg-gradient-to-br from-white to-gray-100 dark:from-gray-950 dark:to-gray-700"

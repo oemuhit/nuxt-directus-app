@@ -14,7 +14,7 @@ import {
 
 export default function useDirectusAuth<DirectusSchema extends object>() {
   const nuxtApp = useNuxtApp();
-
+  console.error(nuxtApp.$directus);
   const $directus = nuxtApp.$directus as RestClient<Schema> &
     AuthenticationClient<Schema>;
 
@@ -48,7 +48,7 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
     const response = await $directus.login({ email, password });
 
     const returnPath = route.query.redirect?.toString();
-    const redirect = returnPath ? returnPath : "/portal";
+    const redirect = returnPath ? returnPath : "/dashboard";
 
     _loggedIn.set(true);
 

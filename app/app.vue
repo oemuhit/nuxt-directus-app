@@ -8,11 +8,15 @@
     />
     <NuxtLayout>
       <NuxtPage />
+
+      <p>Current route: {{ route.path }}</p>
     </NuxtLayout>
   </div>
 </template>
 
 <script setup lang="ts">
+const route = useRoute();
+
 useHead({
   meta: [
     { charset: "utf-8" },
@@ -41,5 +45,9 @@ useHead({
 @reference "~/assets/tailwind.css";
 .bgred {
   @apply bg-red-300;
+}
+
+.red {
+  color: red;
 }
 </style>
