@@ -14,7 +14,7 @@ import {
 
 export default function useDirectusAuth<DirectusSchema extends object>() {
   const nuxtApp = useNuxtApp();
-  console.error(nuxtApp.$directus);
+
   const $directus = nuxtApp.$directus as RestClient<Schema> &
     AuthenticationClient<Schema>;
 
