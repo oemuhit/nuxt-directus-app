@@ -1,6 +1,20 @@
 import { withoutTrailingSlash, withLeadingSlash } from "ufo";
 
 export default defineEventHandler(async (event) => {
+  /*   const nuxtApp = useNuxtApp();
+  const $directus = nuxtApp.$directus as RestClient<Schema> &
+    AuthenticationClient<Schema>;
+  try {
+    const pageData = await $directus.request(
+      readItems("block_hero", {
+        limit: 1,
+        fields: ["*"],
+      })
+    );
+  } catch (error) {
+    console.error("Error fetching page data:", error);
+  } */
+
   const query = getQuery(event);
 
   // Handle live preview

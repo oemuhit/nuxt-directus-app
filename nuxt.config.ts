@@ -35,10 +35,10 @@ export default defineNuxtConfig({
     "@nuxtjs/color-mode",
     "@nuxt/icon",
   ],
-  app: {
+  /*   app: {
     pageTransition: { name: "page", mode: "out-in" },
     layoutTransition: { name: "layout", mode: "out-in" },
-  },
+  }, */
 
   runtimeConfig: {
     public: {
