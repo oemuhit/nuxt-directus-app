@@ -2,7 +2,7 @@ import type { RestClient } from "@directus/sdk";
 
 declare module "#app" {
   interface NuxtApp {
-   /*  $directus: {
+    /*  $directus: {
       rest: RestClient<DirectusSchema>;
     }; */
     $directus: RestClient<DirectusSchema>;

@@ -9,6 +9,18 @@ const { isVisualEditingEnabled, apply, setAttr } = useVisualEditing();
 
 const permalink = withoutTrailingSlash(withLeadingSlash(route.path));
 
+/* const { $directus } = useNuxtApp(); */
+/* try {
+  const pageData = await $directus.request(
+    readItems("block_hero", {
+      limit: 1,
+      fields: ["*"],
+    })
+  );
+} catch (error) {
+  console.error("Error fetching page data:", error);
+}
+ */
 const {
   data: page,
   error,
@@ -71,36 +83,38 @@ onMounted(() => {
 </script>
 
 <template>
-  <NuxtErrorBoundary>
-    <PageBuilder v-if="pageBlocks" :sections="pageBlocks" />
-    <div
-      v-if="isVisualEditingEnabled && page"
-      class="fixed z-50 w-full bottom-4 left-0 right-0 p-4 flex justify-center items-center gap-2"
-    >
-      <!-- If you're not using the visual editor it's safe to remove this element. Just a helper to let editors add edit / add new blocks to a page. -->
-      <Button
-        id="visual-editing-button"
-        variant="secondary"
-        :data-directus="
-          setAttr({
-            collection: 'pages',
-            item: page.id,
-            fields: ['blocks', 'meta_m2a_button'],
-            mode: 'modal',
-          })
-        "
+  <div>
+    <NuxtErrorBoundary>
+      <PageBuilder v-if="pageBlocks" :sections="pageBlocks" />
+      <div
+        v-if="isVisualEditingEnabled && page"
+        class="fixed z-50 w-full bottom-4 left-0 right-0 p-4 flex justify-center items-center gap-2"
       >
-        <Icon name="lucide:pencil" />
-        Edit All Blocks
-      </Button>
-    </div>
-    <!-- If there is an error, display it using the VAlert component -->
-    <template #error="{ error }">
-      <BlockContainer>
-        <VAlert type="error">{{ error }}</VAlert>
-      </BlockContainer>
-    </template>
-  </NuxtErrorBoundary>
+        <!-- If you're not using the visual editor it's safe to remove this element. Just a helper to let editors add edit / add new blocks to a page. -->
+        <Button
+          id="visual-editing-button"
+          variant="secondary"
+          :data-directus="
+            setAttr({
+              collection: 'pages',
+              item: page.id,
+              fields: ['blocks', 'meta_m2a_button'],
+              mode: 'modal',
+            })
+          "
+        >
+          <Icon name="lucide:pencil" />
+          Edit All Blocks
+        </Button>
+      </div>
+      <!-- If there is an error, display it using the VAlert component -->
+      <template #error="{ error }">
+        <BlockContainer>
+          <VAlert type="error">{{ error }}</VAlert>
+        </BlockContainer>
+      </template>
+    </NuxtErrorBoundary>
+  </div>
 </template>
 
 <style>

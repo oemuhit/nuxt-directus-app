@@ -72,3 +72,4 @@ onMounted(() => {
     <ScrollTop />
   </div>
 </template>
+<style scoped></style>

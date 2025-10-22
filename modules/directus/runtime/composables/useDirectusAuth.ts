@@ -10,7 +10,9 @@ import {
   navigateTo,
   clearNuxtData,
   useNuxtApp,
+  nextTick,
 } from "#imports";
+import type { User } from "@directus/types";
 
 export default function useDirectusAuth<DirectusSchema extends object>() {
   const nuxtApp = useNuxtApp();
@@ -18,7 +20,10 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
   const $directus = nuxtApp.$directus as RestClient<Schema> &
     AuthenticationClient<Schema>;
 
-  const user: Ref<DirectusUser | null | undefined> = useState("user");
+  const user: Ref<DirectusUser | null | undefined> = useState(
+    "user",
+    () => null
+  );
 
   const config = useRuntimeConfig();
 
@@ -52,10 +57,13 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
 
     _loggedIn.set(true);
 
-    setTimeout(async () => {
-      await fetchUser({ fields: ["*", { contacts: ["*"] }] });
-      await navigateTo(redirect);
-    }, 100);
+    // Fetch user data first, then navigate
+    await fetchUser({ fields: ["*", { contacts: ["*"] }] });
+
+    // Wait a bit more to ensure state is fully updated
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    await navigateTo(redirect);
   }
 
   async function logout() {
@@ -75,15 +83,25 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
   async function fetchUser(params?: object) {
     const fields = config.public?.directus?.auth?.userFields || ["*"];
 
-    const response = await $directus.request(
-      readMe({
-        // @ts-ignore
-        fields,
-        ...params,
-      })
-    );
+    try {
+      const response = await $directus.request(
+        readMe({
+          // @ts-ignore
+          fields,
+          ...params,
+        })
+      );
 
-    user.value = response as User;
+      user.value = response as DirectusUser;
+
+      // Force reactivity update
+      /*  nextTick(() => {
+        console.log("User state after nextTick:", user.value);
+      }); */
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      user.value = null;
+    }
   }
 
   return {

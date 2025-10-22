@@ -20,7 +20,6 @@ const searched = ref(false);
 const router = useRouter();
 
 const fetchResults = async (search: string) => {
-  console.log("fetchResults", search);
   if (search.length < 3) {
     results.value = [];
     searched.value = false;
@@ -36,12 +35,11 @@ const fetchResults = async (search: string) => {
     });
 
     results.value = [...data];
-    console.log(results.value);
   } catch {
     results.value = [];
   } finally {
     loading.value = false;
-    // await nextTick();
+    await nextTick();
   }
 };
 
@@ -86,14 +84,25 @@ watch(open, (isOpen) => {
           >Search for pages or posts</DialogDescription
         >
 
-        <CommandInput
+        <!--    <CommandInput
           placeholder="Search for pages or posts"
           class="m-2 p-4 focus:outline-none text-base leading-normal"
           @input="(e) => debouncedFetchResults(e.target.value)"
-        />
+        /> -->
+
+        <div class="relative flex items-center gap-2 mt-0 mr-12">
+          <Input
+            placeholder="Search for pages or posts"
+            @input="(e: Event) => debouncedFetchResults((e.target as HTMLInputElement).value)"
+            class="pr-10"
+          />
+          <span class="absolute right-3">
+            <Search class="size-5 text-muted-foreground pointer-events-none" />
+          </span>
+        </div>
 
         <CommandList class="p-2 text-foreground max-h-[500px] overflow-auto">
-          <CommandEmpty
+          <!--       <CommandEmpty
             v-if="!loading && !searched"
             class="py-2 text-sm text-center"
           >
@@ -107,7 +116,7 @@ watch(open, (isOpen) => {
             class="py-2 text-sm text-center"
           >
             No results found
-          </CommandEmpty>
+          </CommandEmpty> -->
 
           <CommandGroup
             v-if="results.length > 0"
@@ -127,6 +136,7 @@ watch(open, (isOpen) => {
               "
             >
               <Badge variant="default">{{ result.type }}</Badge>
+
               <div class="ml-2 w-full">
                 <p class="font-medium text-base">{{ result.title }}</p>
                 <p v-if="result.description" class="text-sm mt-1 line-clamp-2">

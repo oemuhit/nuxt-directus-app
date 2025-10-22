@@ -10,6 +10,16 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   const fetchUtils = (url: RequestInfo, options: RequestInit) => {
     // SSR ise headers.cookie ekle
+
+    /*     const cookie = process.server
+      ? nuxtApp.ssrContext?.event?.node.req.headers.cookie
+      : document.cookie;
+
+    options.headers = {
+      ...(options.headers || {}),
+      ...(cookie ? { cookie } : {}),
+    };
+ */
     if (process.server) {
       const event = nuxtApp.ssrContext?.event;
 
