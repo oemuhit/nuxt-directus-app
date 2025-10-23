@@ -1,3 +1,5 @@
+import { directusFactory } from "../utils/directus-server";
+
 export default defineEventHandler(async (event) => {
   const cookies = parseCookies(event);
   const headers = getHeaders(event);
@@ -6,10 +8,18 @@ export default defineEventHandler(async (event) => {
   console.log("Headers:", headers);
 
   try {
+    let currentVia = null;
+    try {
+      currentVia = await directusCurrentUser.request(readMe());
+      console.log("Current user from via:", currentVia);
+    } catch (error) {
+      console.log("No authenticated user from via or error:", error.message);
+    }
+
     // Example 1: Get current user (if authenticated)
     let currentUser = null;
     try {
-      currentUser = await directusServer.request(readMe());
+      currentUser = await directusFactory(event).request(readMe());
       console.log("Current user:", currentUser);
     } catch (error) {
       console.log("No authenticated user or error:", error.message);
@@ -48,6 +58,7 @@ export default defineEventHandler(async (event) => {
       cookies,
       headers,
       currentUser,
+      currentVia,
       pages,
       message: "Directus server API example",
     };

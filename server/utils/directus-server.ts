@@ -15,9 +15,11 @@ import {
   withToken,
   type QueryFilter,
   readUser,
+  authentication,
 } from "@directus/sdk";
+import { joinURL } from "ufo";
 const {
-  public: { directusUrl },
+  public: { directusUrl, siteUrl },
   directusServerToken,
 } = useRuntimeConfig();
 console.log(directusServerToken);
@@ -31,8 +33,41 @@ const directusServer = createDirectus<Schema>(directusUrl as string, {
   .with(rest())
   .with(staticToken(directusServerToken as string));
 
+const directusFactory = (event: any) => {
+  const customFetch = (request: RequestInfo, options: any = {}) => {
+    if (process.server && event?.node?.req?.headers?.cookie) {
+      options.headers = {
+        ...(options.headers || {}),
+        cookie: event.node.req.headers.cookie,
+      };
+    }
+    return $fetch(request, options);
+  };
+
+  return createDirectus<Schema>(directusUrl as string, {
+    globals: {
+      fetch: customFetch,
+    },
+  })
+    .with(authentication("session"))
+    .with(rest());
+};
+
+const directusCurrentUser = createDirectus<Schema>(
+  joinURL(siteUrl, "/api/proxy"),
+  {
+    globals: {
+      fetch: $fetch,
+    },
+  }
+)
+  .with(authentication("session"))
+  .with(rest());
+
 export {
   directusServer,
+  directusCurrentUser,
+  directusFactory,
   readItem,
   readItems,
   readMe,
