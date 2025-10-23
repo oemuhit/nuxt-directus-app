@@ -53,20 +53,8 @@ const directusFactory = (event: any) => {
     .with(rest());
 };
 
-const directusCurrentUser = createDirectus<Schema>(
-  joinURL(siteUrl, "/api/proxy"),
-  {
-    globals: {
-      fetch: $fetch,
-    },
-  }
-)
-  .with(authentication("session"))
-  .with(rest());
-
 export {
   directusServer,
-  directusCurrentUser,
   directusFactory,
   readItem,
   readItems,
