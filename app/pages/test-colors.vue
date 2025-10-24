@@ -182,20 +182,31 @@
 
       <pre>{{ posts }}</pre>
 
-      <div class="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
+      <div
+        class="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl text-accent"
+      >
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+        quos.accent
       </div>
-      <div class="text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-10xl">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
+      <div
+        class="text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-10xl dark:text-accent"
+      >
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+        quos.accent
       </div>
 
-      <div class="!text-xl sm:!text-2xl md:!text-3xl lg:!text-4xl xl:!text-5xl">
+      <div
+        class="!text-xl sm:!text-2xl md:!text-3xl lg:!text-4xl xl:!text-5xl text-primary-500"
+      >
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
       </div>
       <div
-        class="!text-6xl sm:!text-7xl md:!text-8xl lg:!text-9xl xl:!text-10xl"
+        class="!text-6xl sm:!text-7xl md:!text-8xl lg:!text-9xl xl:!text-10xl text-primary-300 min-h-screen"
       >
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
+      </div>
+      <div class="text-headline-anfen text-orange-600 dark:!text-orange-600">
+        orange-600
       </div>
     </div>
   </BlockContainer>

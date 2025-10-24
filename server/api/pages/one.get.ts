@@ -67,8 +67,41 @@ export default defineEventHandler(async (event) => {
                       "mouse_aware_bg",
                       "full_width",
                       "template",
+                    ],
+
+                    block_row_normal: [
+                      "id",
+                      "tagline",
+                      "headline",
+                      "description",
+                      "layout",
+                      "image",
+                      "video_url",
+                      "media_type",
+                      "video_file",
+                      "video_type",
+                      "bg_type",
+                      "bg_color",
+                      "bg_image",
+                      "mouse_aware_bg",
+                      "full_width",
+                      "template",
+
                       {
-                        button: ["*", { page: ["permalink"], post: ["slug"] }],
+                        button_group: [
+                          "id",
+                          {
+                            buttons: [
+                              "id",
+                              "label",
+                              "variant",
+                              "url",
+                              "type",
+                              { page: ["permalink"] },
+                              { post: ["slug"] },
+                            ],
+                          },
+                        ],
                       },
                     ],
 

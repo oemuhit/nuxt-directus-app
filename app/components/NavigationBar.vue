@@ -125,7 +125,7 @@ bg-background
                 </NavigationMenuContent>
               </template>
 
-              <Popover v-if="section.children?.length">
+              <Popover v-if="section.children?.length" v-slot="{ close }">
                 <!-- === Trigger Button === -->
                 <PopoverTrigger as-child>
                   <NuxtLink
@@ -149,6 +149,7 @@ bg-background
                       v-for="childItem in section.children"
                       :key="childItem.id"
                       :to="getNavItemUrl(childItem)"
+                      @click="close()"
                       class="flex items-start gap-4 p-4 rounded-xl transition duration-150 hover:bg-gray-900 group"
                     >
                       <div
@@ -165,6 +166,7 @@ bg-background
                         <p class="font-medium text-white font-display">
                           {{ childItem.title }}
                         </p>
+
                         <p
                           v-if="childItem.label"
                           class="mt-1 text-sm text-gray-400 leading-tight"

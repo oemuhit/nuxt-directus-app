@@ -81,75 +81,101 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
+  <BlockContainer
     :fullWidth="data?.full_width ?? false"
-    class="relative overflow-hidden bg-red-500"
-    :style="{
-      backgroundColor: !isMouseAware
-        ? data?.bg_color ?? 'transparent'
-        : 'transparent',
-      backgroundImage:
-        !isMouseAware && data?.bg_image
-          ? 'url(' + directusUrl + '/assets/' + data?.bg_image + ')'
-          : 'none',
-    }"
+    class="relative overflow-hidden"
+    :class="data?.template?.block"
   >
-    <div class="absolute inset-0 opacity-10 grain-bg dark:opacity-5"></div>
-    <!-- Mouse Aware Background -->
     <div
-      v-if="isMouseAware"
-      :ref="
+      :ref=" isMouseAware ? 
 				(el) => {
 					if (el) bg = el as HTMLElement;
-				}
+				}:`null`
 			"
-      class="mouse-aware-bg"
+      :class="isMouseAware ? 'mouse-aware-bg' : ''"
       :style="{
         backgroundColor: data?.bg_color ?? 'transparent',
+        backgroundSize: 'cover',
         backgroundImage: data?.bg_image
           ? 'url(' + directusUrl + '/assets/' + data?.bg_image + ')'
           : 'none',
       }"
-    ></div>
-
-    <div
-      :data-directus="
-        setAttr({
-          collection: 'block_row_sequential',
-          item: data?.id,
-          /* fields: 'title', */ mode: 'drawer',
-        })
-      "
-      class="relative z-10 my-auto flex flex-row items-center justify-center py-12 gap-12"
+      class="flex items-center justify-center"
     >
-      <div class="flex flex-col items-center justify-center gap-4">
-        <TypographyTitle
-          class="font-heading"
-          :class="data?.template?.tagline?.class"
-          v-if="data?.tagline"
-        >
-          {{ data?.tagline }}
-        </TypographyTitle>
+      <div
+        v-if="
+          !(isMouseAware || data?.template?.bgShadow) &&
+          data?.bg_type === 'color' &&
+          data?.bg_color
+        "
+        class="absolute inset-0 opacity-10 grain-bg dark:opacity-5"
+      ></div>
+      <div
+        class="absolute top-0 left-0 w-full h-full"
+        :class="data?.template?.bgShadow && 'bg-black/50 backdrop-saturate-200'"
+      ></div>
 
-        <TypographyHeadline
-          class="font-heading"
-          v-if="data?.headline"
-          :content="data?.headline"
-          :class="data?.template?.headline?.class"
-        />
+      <div
+        :data-directus="
+          setAttr({
+            collection: 'block_row_sequential',
+            item: data?.id,
+            /* fields: 'title', */ mode: 'drawer',
+          })
+        "
+        class="relative z-10 my-auto flex flex-row items-center justify-center py-12 gap-12"
+      >
+        <div class="flex flex-col items-center justify-center gap-4">
+          <motion.div
+            :initial="{ opacity: 0, y: 100 }"
+            :whileInView="{
+              opacity: 1,
+              y: 0,
+              transition: { duration: 0.2 },
+            }"
+          >
+            <TypographyTitle
+              class="font-heading"
+              :class="data?.template?.tagline"
+              v-if="data?.tagline"
+            >
+              {{ data?.tagline }}
+            </TypographyTitle>
+          </motion.div>
 
-        <TypographyProse
-          v-if="data?.content"
-          :content="data?.content"
-          class="mt-4 px-4 md:px-0"
-          :class="data?.template?.content?.class"
-        />
+          <motion.div
+            :initial="{ opacity: 0, y: 100 }"
+            :whileInView="{
+              opacity: 1,
+              y: 0,
+              transition: { duration: 0.2 },
+            }"
+            ><TypographyHeadline
+              class="font-heading"
+              :class="data?.template?.headline"
+              v-if="data?.headline"
+              :content="data?.headline"
+          /></motion.div>
 
-        <!-- 				<TextGlitch :speed="1" :enable-shadows="true" text="Inspira UI" />
+          <motion.div
+            :initial="{ opacity: 0, y: 100 }"
+            :whileInView="{
+              opacity: 1,
+              y: 0,
+              transition: { duration: 0.2 },
+            }"
+            ><TypographyProse
+              v-if="data?.content"
+              :content="data?.content"
+              class="mt-4 px-4 md:px-0"
+              :class="data?.template?.content"
+          /></motion.div>
+
+          <!-- 				<TextGlitch :speed="1" :enable-shadows="true" text="Inspira UI" />
 
 		-->
 
-        <!-- 				<UButton
+          <!-- 				<UButton
 					:to="getUrl(data.btn as BlockButton)"
 					:color="data.btn?.color"
 					variant="outline"
@@ -159,26 +185,28 @@ onMounted(() => {
 					trailing-icon="material-symbols:arrow-forward-rounded"
 				/> -->
 
-        <div
-          :class="`flex flex-col justify-center space-y-4 md:space-x-4 md:flex-row md:space-y-0`"
-        >
-          <!-- 		:size="'lg' || data.button?.size ?? 'default'"
- -->
-          <Button
-            @click="navigateTo(getUrl(data.button as BlockButton))"
-            :id="data.button?.id ?? ''"
-            :variant="data.button?.variant ?? 'outline'"
-            :target="data.button?.url ? '_blank' : '_self'"
-            :size="data.button?.size ?? 'default'"
-            :class="data?.template?.button?.class"
+          <div
+            v-if="data.button"
+            :class="`flex flex-col justify-center space-y-4 md:space-x-4 md:flex-row md:space-y-0`"
           >
-            <span v-if="data.button?.label">{{ data.button?.label }}</span>
-            <Icon name="material-symbols:arrow-forward-rounded" />
-          </Button>
+            <!-- 		:size="'lg' || data.button?.size ?? 'default'"
+ -->
+            <Button
+              @click="navigateTo(getUrl(data.button as BlockButton))"
+              :id="data.button?.id ?? ''"
+              :variant="data.button?.variant ?? 'outline'"
+              :target="data.button?.url ? '_blank' : '_self'"
+              :size="data.button?.size ?? 'default'"
+              :class="data?.template?.button?.class"
+            >
+              <span v-if="data.button?.label">{{ data.button?.label }}</span>
+              <Icon name="material-symbols:arrow-forward-rounded" />
+            </Button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </BlockContainer>
 </template>
 
 <style scoped>

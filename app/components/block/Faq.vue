@@ -1,5 +1,4 @@
 <template>
-  .....
   <BlockContainer
     fullWidth
     class="relative background-blue"

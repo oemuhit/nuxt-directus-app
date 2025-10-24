@@ -4,14 +4,16 @@ export default defineEventHandler(async (event) => {
   const cookies = parseCookies(event);
   const headers = getHeaders(event);
 
-  console.log("Cookies:", cookies);
-  console.log("Headers:", headers);
-
   try {
     // Example 1: Get current user (if authenticated)
     let currentUser = null;
     try {
-      currentUser = await directusFactory(event).request(readMe());
+      //   currentUser = await directusFactory(event).request(readMe());
+
+      currentUser = await directusServer.request(
+        withToken(cookies.directus_session_token, readMe())
+      );
+
       console.log("Current user:", currentUser);
     } catch (error) {
       console.log("No authenticated user or error:", error.message);
@@ -24,7 +26,6 @@ export default defineEventHandler(async (event) => {
         fields: ["id", "title", "permalink"],
       })
     );
-    console.log("Pages:", pages);
 
     // Example 3: Get pages with specific token (for preview)
     const previewToken =

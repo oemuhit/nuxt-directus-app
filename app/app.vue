@@ -8,17 +8,11 @@
     />
     <NuxtLayout>
       <NuxtPage />
-
-      <p>Current route: {{ route.path }}</p>
     </NuxtLayout>
   </div>
 </template>
 
 <script setup lang="ts">
-import TestColors from "./pages/test-colors.vue";
-
-const route = useRoute();
-
 useHead({
   meta: [
     { charset: "utf-8" },

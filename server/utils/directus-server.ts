@@ -19,10 +19,9 @@ import {
 } from "@directus/sdk";
 import { joinURL } from "ufo";
 const {
-  public: { directusUrl, siteUrl },
+  public: { directusUrl },
   directusServerToken,
 } = useRuntimeConfig();
-console.log(directusServerToken);
 
 // By default, we use the Public permissions to fetch content (even on the server side). If you want to restrict public access it's recommended to use the staticToken option.
 const directusServer = createDirectus<Schema>(directusUrl as string, {
@@ -33,7 +32,7 @@ const directusServer = createDirectus<Schema>(directusUrl as string, {
   .with(rest())
   .with(staticToken(directusServerToken as string));
 
-const directusFactory = (event: any) => {
+/* const directusFactory = (event: any) => {
   const customFetch = (request: RequestInfo, options: any = {}) => {
     if (process.server && event?.node?.req?.headers?.cookie) {
       options.headers = {
@@ -51,7 +50,7 @@ const directusFactory = (event: any) => {
   })
     .with(authentication("session"))
     .with(rest());
-};
+}; */
 
 export {
   directusServer,

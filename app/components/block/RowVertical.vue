@@ -83,95 +83,89 @@ onMounted(() => {
   <BlockContainer
     :fullWidth="data?.full_width ?? false"
     class="relative overflow-hidden"
-    :style="{
-      backgroundColor: !isMouseAware
-        ? data?.bg_color ?? 'transparent'
-        : 'transparent',
-      backgroundImage:
-        !isMouseAware && data?.bg_image
-          ? 'url(' + directusUrl + '/assets/' + data?.bg_image + ')'
-          : 'none',
-    }"
+    :class="data?.template?.block"
   >
     <div
-      v-if="!(isMouseAware || data?.template?.bgShadow)"
-      class="absolute inset-0 opacity-100 grain-bg dark:opacity-5"
-    ></div>
-
-    <div
-      v-if="data?.template?.bgShadow"
-      class="absolute top-0 left-0 w-full h-full"
-      :class="'bg-black/50 backdrop-saturate-200'"
-    ></div>
-    <!-- Mouse Aware Background -->
-    <div
-      v-if="isMouseAware"
-      :ref="
+      :ref=" isMouseAware ? 
 				(el) => {
 					if (el) bg = el as HTMLElement;
-				}
+				}:`null`
 			"
-      class="mouse-aware-bg"
+      :class="isMouseAware ? 'mouse-aware-bg' : ''"
       :style="{
         backgroundColor: data?.bg_color ?? 'transparent',
+        backgroundSize: 'cover',
         backgroundImage: data?.bg_image
           ? 'url(' + directusUrl + '/assets/' + data?.bg_image + ')'
           : 'none',
       }"
-    ></div>
-
-    <div
-      :data-directus="
-        setAttr({
-          collection: 'block_row_vertical',
-          item: data?.id,
-          /* fields: 'title', */ mode: 'drawer',
-        })
-      "
-      class="relative z-10 flex flex-col md:flex-row justify-center min-h-screen max-w-7xl items-center mx-auto"
     >
       <div
-        class="box1-wrapper my-4 md:my-0 md:justify-center lg:justify-end md:max-w-xs lg:max-w-md"
+        v-if="
+          !(isMouseAware || data?.template?.bgShadow) &&
+          data?.bg_type === 'color' &&
+          data?.bg_color
+        "
+        class="absolute inset-0 opacity-10 grain-bg dark:opacity-5"
+      ></div>
+      <div
+        class="absolute top-0 left-0 w-full h-full"
+        :class="data?.template?.bgShadow && 'bg-black/50 backdrop-saturate-200'"
+      ></div>
+
+      <div
+        :data-directus="
+          setAttr({
+            collection: 'block_row_vertical',
+            item: data?.id,
+            /* fields: 'title', */ mode: 'drawer',
+          })
+        "
+        class="relative z-10 flex flex-col md:flex-row justify-center min-h-screen max-w-7xl items-center mx-auto"
       >
-        <div class="px-4 md:py-4 md:px-4 box1">
-          <BoxReveal color="darkorange">
-            <TypographyTitle
-              class="text-5xl md:text-7xl !font-black font-heading"
-              v-if="data?.tagline"
-              :class="data?.template?.tagline?.class"
-            >
-              {{ data?.tagline }}
-            </TypographyTitle>
-          </BoxReveal>
+        <div
+          class="box1-wrapper my-4 md:my-0 md:justify-center lg:justify-end md:max-w-xs lg:max-w-md"
+        >
+          <div class="px-4 md:py-4 md:px-4 box1">
+            <BoxReveal color="darkorange">
+              <TypographyTitle
+                class="text-5xl md:text-7xl !font-black font-heading"
+                v-if="data?.tagline"
+                :class="data?.template?.tagline"
+              >
+                {{ data?.tagline }}
+              </TypographyTitle>
+            </BoxReveal>
+          </div>
         </div>
-      </div>
-      <!-- 			<div class="text-neutral-100">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</div>
+        <!-- 			<div class="text-neutral-100">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</div>
  -->
 
-      <!-- -->
+        <!-- -->
 
-      <motion.div
-        :initial="{ opacity: 0, y: 100 }"
-        :whileInView="{
-          opacity: 1,
-          y: 0,
-          transition: { duration: 0.2 },
-        }"
-        class="px-4 md:px-0"
-      >
-        <TypographyHeadline
-          v-if="data?.headline"
-          :content="data?.headline"
-          :class="data?.template?.headline?.class"
-        />
+        <motion.div
+          :initial="{ opacity: 0, y: 100 }"
+          :whileInView="{
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.2 },
+          }"
+          class="px-4 md:px-0"
+        >
+          <TypographyHeadline
+            v-if="data?.headline"
+            :content="data?.headline"
+            :class="data?.template?.headline"
+          />
 
-        <TypographyProse
-          v-if="data?.content"
-          :content="data?.content"
-          class="mt-4"
-          :class="data?.template?.content?.class"
-        />
-      </motion.div>
+          <TypographyProse
+            v-if="data?.content"
+            :content="data?.content"
+            class="mt-4"
+            :class="data?.template?.content"
+          />
+        </motion.div>
+      </div>
     </div>
   </BlockContainer>
 </template>

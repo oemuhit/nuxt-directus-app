@@ -3,13 +3,13 @@ import { joinURL } from "ufo";
 export default defineEventHandler(async (event) => {
   const headers = getHeaders(event);
   const cookies = parseCookies(event);
-
+  /* 
   console.log("=== PROXY DEBUG ===");
   console.log("Headers:", headers);
   console.log("Cookies:", cookies);
   console.log("Path:", event.path);
   console.log("Method:", event.method);
-  console.log("==================");
+  console.log("=================="); */
 
   const config = useRuntimeConfig();
 

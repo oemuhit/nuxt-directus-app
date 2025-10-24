@@ -169,13 +169,50 @@ export interface BlockRowVertical {
   headline: string | null;
   content: string | null;
   bg_type: string | null;
-  button: string | BlockButton | null;
+  /*   button: string | BlockButton | null; */
   bg_color: string | null;
   bg_image: string | DirectusFile | null;
   mouse_aware_bg: boolean | null;
   full_width: boolean | null;
   template: string | null;
 }
+
+export interface BlockRowNormal {
+  id: string;
+  tagline: string | null;
+  headline: string | null;
+  description: string | null;
+  button_group: string | BlockButtonGroup | null;
+  image: string | DirectusFile | null;
+  layout: string | null;
+  media_type: string | null;
+  video_url: string | null;
+  video_file: string | DirectusFile | null;
+  video_type: "url" | "file" | null;
+
+  bg_type: string | null;
+  bg_color: string | null;
+  bg_image: string | DirectusFile | null;
+  mouse_aware_bg: boolean | null;
+  full_width: boolean | null;
+  template: string | null;
+}
+
+/* 
+export interface BlockRowNormal {
+  id: string;
+  status: "published" | "draft" | "archived";
+  tagline: string | null;
+  headline: string | null;
+  content: string | null;
+  bg_type: string | null;
+  /*   button: string | BlockButton | null;
+    bg_color: string | null;
+  bg_image: string | DirectusFile | null;
+  mouse_aware_bg: boolean | null;
+  full_width: boolean | null;
+  template: string | null;
+} */
 
 export interface BlockRowSequential {
   id: string;
