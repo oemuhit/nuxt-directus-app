@@ -144,14 +144,21 @@
             - Primary 400
           </div>
           <div class="w-24 h-24 bg-primary"></div>
-          <UButton>LOREM</UButton>
-
-          <span class="text-dimmed">Dimmed</span>
-          <span class="text-muted">Muted</span>
-          <span class="text-toned">Toned</span>
-          <span class="text-default">Text</span>
-          <span class="text-highlighted">Highlighted</span>
-          <span class="text-inverted bg-inverted">Inverted</span>
+          <div class="flex gap-4 flex-col">
+            <Button variant="default">LOREM</Button>
+            <Button variant="outline">LOREM</Button>
+            <Button variant="ghost">LOREM</Button>
+            <Button variant="link">LOREM</Button>
+            <Button variant="destructive">LOREM</Button>
+          </div>
+          <div class="flex gap-4 flex-col">
+            <span class="text-dimmed">Dimmed</span>
+            <span class="text-muted">Muted</span>
+            <span class="text-toned">Toned</span>
+            <span class="text-default">Text</span>
+            <span class="text-highlighted">Highlighted</span>
+            <span class="text-inverted bg-inverted">Inverted</span>
+          </div>
 
           <div class="bg-primary-500 text-white p-6 rounded-lg">
             <code>bg-primary-500</code>

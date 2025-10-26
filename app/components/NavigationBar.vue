@@ -224,7 +224,7 @@ bg-background
 
 /* Menu Link Component */
 .menu-link {
-  @apply text-white bg-accent  hover:bg-accent/50 transition duration-150 font-medium hover:text-white py-2 px-3 inline-flex items-center;
+  @apply text-white bg-primary  hover:bg-primary/50 transition duration-150 font-medium hover:text-white py-2 px-3 inline-flex items-center;
 
   outline: none;
   border-radius: var(--radius-md);

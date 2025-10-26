@@ -28,7 +28,8 @@ function handleMouse(e: MouseEvent) {
   const normY = e.clientY / window.innerHeight - 0.5;
   const tx = -normX * strength;
   const ty = -normY * strength;
-  bg.value.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
+  //bg.value.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
+  bg.value.style.backgroundPosition = `calc(50% + ${tx}px) calc(50% + ${ty}px)`;
 }
 
 function handleOrientation(e: DeviceOrientationEvent) {
@@ -38,7 +39,8 @@ function handleOrientation(e: DeviceOrientationEvent) {
   const tiltY = (e.beta || 0) / 45;
   const tx = tiltX * strength;
   const ty = tiltY * strength;
-  bg.value.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
+  //bg.value.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
+  bg.value.style.backgroundPosition = `calc(50% + ${tx}px) calc(50% + ${ty}px)`;
 }
 
 onMounted(() => {
@@ -83,38 +85,49 @@ onMounted(() => {
 <template>
   <BlockContainer
     :fullWidth="data?.full_width ?? false"
-    class="relative overflow-hidden"
+    class="flex flex-col justify-center align-center"
     :class="data?.template?.block"
   >
     <div
+      class="inset-0 absolute"
+      :style="{
+        backgroundColor:
+          data.bg_type === 'color'
+            ? data?.bg_color ?? 'transparent'
+            : 'transparent',
+
+        backgroundSize: '110% auto',
+        backgroundPosition: 'center',
+        transition: 'background-position 0.1s ease-out',
+
+        backgroundImage:
+          data.bg_type === 'image'
+            ? data?.bg_image
+              ? 'url(' + directusUrl + '/assets/' + data?.bg_image + ')'
+              : 'none'
+            : 'none',
+      }"
       :ref=" isMouseAware ? 
 				(el) => {
 					if (el) bg = el as HTMLElement;
 				}:`null`
 			"
-      :class="isMouseAware ? 'mouse-aware-bg' : ''"
-      :style="{
-        backgroundColor: data?.bg_color ?? 'transparent',
-        backgroundSize: 'cover',
-        backgroundImage: data?.bg_image
-          ? 'url(' + directusUrl + '/assets/' + data?.bg_image + ')'
-          : 'none',
-      }"
-      class="flex items-center justify-center"
-    >
-      <div
-        v-if="
-          !(isMouseAware || data?.template?.bgShadow) &&
-          data?.bg_type === 'color' &&
-          data?.bg_color
-        "
-        class="absolute inset-0 opacity-10 grain-bg dark:opacity-5"
-      ></div>
-      <div
-        class="absolute top-0 left-0 w-full h-full"
-        :class="data?.template?.bgShadow && 'bg-black/50 backdrop-saturate-200'"
-      ></div>
+    ></div>
+    <div
+      v-if="
+        !(isMouseAware || data?.template?.bgShadow) &&
+        data?.bg_type === 'color' &&
+        data?.bg_color
+      "
+      class="absolute inset-0 opacity-10 grain-bg dark:opacity-5"
+    ></div>
 
+    <div
+      class="absolute top-0 left-0 w-full h-full"
+      :class="data?.template?.bgShadow && 'bg-black/50 backdrop-saturate-200'"
+    ></div>
+
+    <div class="flex flex-col justify-center align-center">
       <div
         :data-directus="
           setAttr({
@@ -123,86 +136,74 @@ onMounted(() => {
             /* fields: 'title', */ mode: 'drawer',
           })
         "
-        class="relative z-10 my-auto flex flex-row items-center justify-center py-12 gap-12"
+        class="my-auto mx-auto flex flex-col items-center justify-center gap-12 px-4 lg:px-0 max-w-6xl"
       >
-        <div class="flex flex-col items-center justify-center gap-4">
-          <motion.div
-            :initial="{ opacity: 0, y: 100 }"
-            :whileInView="{
-              opacity: 1,
-              y: 0,
-              transition: { duration: 0.2 },
-            }"
+        <motion.div
+          :initial="{ opacity: 0, y: 100 }"
+          :whileInView="{
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.2 },
+          }"
+          class="z-1"
+        >
+          <TypographyTitle
+            class="font-heading"
+            :class="data?.template?.tagline"
+            v-if="data?.tagline"
           >
-            <TypographyTitle
-              class="font-heading"
-              :class="data?.template?.tagline"
-              v-if="data?.tagline"
-            >
-              {{ data?.tagline }}
-            </TypographyTitle>
-          </motion.div>
+            {{ data?.tagline }}
+          </TypographyTitle>
+        </motion.div>
 
-          <motion.div
-            :initial="{ opacity: 0, y: 100 }"
-            :whileInView="{
-              opacity: 1,
-              y: 0,
-              transition: { duration: 0.2 },
-            }"
-            ><TypographyHeadline
-              class="font-heading"
-              :class="data?.template?.headline"
-              v-if="data?.headline"
-              :content="data?.headline"
-          /></motion.div>
+        <motion.div
+          class="z-1"
+          :initial="{ opacity: 0, y: 100 }"
+          :whileInView="{
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.2 },
+          }"
+        >
+          <TypographyHeadline
+            class="font-heading"
+            :class="data?.template?.headline"
+            v-if="data?.headline"
+            :content="data?.headline"
+        /></motion.div>
 
-          <motion.div
-            :initial="{ opacity: 0, y: 100 }"
-            :whileInView="{
-              opacity: 1,
-              y: 0,
-              transition: { duration: 0.2 },
-            }"
-            ><TypographyProse
-              v-if="data?.content"
-              :content="data?.content"
-              class="mt-4 px-4 md:px-0"
-              :class="data?.template?.content"
-          /></motion.div>
+        <motion.div
+          class="z-1"
+          :initial="{ opacity: 0, y: 100 }"
+          :whileInView="{
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.2 },
+          }"
+          ><TypographyProse
+            v-if="data?.content"
+            :content="data?.content"
+            class="mt-4 px-4 md:px-0"
+            :class="data?.template?.content"
+        /></motion.div>
 
-          <!-- 				<TextGlitch :speed="1" :enable-shadows="true" text="Inspira UI" />
-
-		-->
-
-          <!-- 				<UButton
-					:to="getUrl(data.btn as BlockButton)"
-					:color="data.btn?.color"
-					variant="outline"
-					:target="data.btn?.external_url ? '_blank' : '_self'"
-					:label="data.btn?.label ?? undefined"
-					size="xl"
-					trailing-icon="material-symbols:arrow-forward-rounded"
-				/> -->
-
-          <div
-            v-if="data.button"
-            :class="`flex flex-col justify-center space-y-4 md:space-x-4 md:flex-row md:space-y-0`"
-          >
-            <!-- 		:size="'lg' || data.button?.size ?? 'default'"
+        <div
+          v-if="data.button"
+          :class="`flex flex-col justify-center space-y-4 md:space-x-4 md:flex-row md:space-y-0 `"
+        >
+          <!-- 		:size="'lg' || data.button?.size ?? 'default'"
  -->
-            <Button
-              @click="navigateTo(getUrl(data.button as BlockButton))"
-              :id="data.button?.id ?? ''"
-              :variant="data.button?.variant ?? 'outline'"
-              :target="data.button?.url ? '_blank' : '_self'"
-              :size="data.button?.size ?? 'default'"
-              :class="data?.template?.button?.class"
-            >
-              <span v-if="data.button?.label">{{ data.button?.label }}</span>
-              <Icon name="material-symbols:arrow-forward-rounded" />
-            </Button>
-          </div>
+          <Button
+            @click="navigateTo(getUrl(data.button as BlockButton))"
+            :id="data.button?.id ?? ''"
+            :variant="data.button?.variant ?? 'outline'"
+            :target="data.button?.url ? '_blank' : '_self'"
+            :size="data.button?.size ?? 'default'"
+            :class="data?.template?.button?.class"
+          >
+            <span v-if="data.button?.label">{{ data.button?.label }}</span>
+            <Icon name="material-symbols:arrow-forward-rounded" />
+          </Button>
         </div>
       </div>
     </div>

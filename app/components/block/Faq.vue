@@ -11,7 +11,7 @@
     <div class="absolute inset-0 opacity-10 grain-bg dark:opacity-10"></div>
 
     <div
-      class="relative text-center max-w-6xl pt-4 mx-auto flex flex-col gap-8 justify-center"
+      class="relative text-center max-w-6xl px-4 md:px-0 pt-4 mx-auto flex flex-col gap-8 justify-center"
     >
       <TypographyTitle as="h2" v-if="data.tagline" class="font-heading">
         {{ data.tagline }}
