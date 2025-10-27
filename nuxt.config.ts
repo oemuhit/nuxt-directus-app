@@ -5,7 +5,11 @@ export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
   ssr: true,
-
+  /*   nitro: {
+    prerender: {
+      autoSubfolderIndex: false,
+    },
+  }, */
   components: [
     {
       path: "~/components/ui",
