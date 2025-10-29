@@ -1,25 +1,40 @@
-import { defineNuxtRouteMiddleware, useRuntimeConfig, navigateTo, useDirectusAuth } from '#imports';
+import {
+  defineNuxtRouteMiddleware,
+  useRuntimeConfig,
+  navigateTo,
+  useDirectusAuth,
+} from "#imports";
 
-export default defineNuxtRouteMiddleware((to) => {
-	const config = useRuntimeConfig().public.directus;
-	const { user, _loggedIn } = useDirectusAuth();
-	console.log('user', user.value);
-	console.log('_loggedIn', _loggedIn.get());
-	if (to.path === config.auth.redirect.login || to.path === config.auth.redirect.callback) {
-		return;
-	}
+export default defineNuxtRouteMiddleware(async (to) => {
+  const config = useRuntimeConfig().public.directus;
+  const { user, _loggedIn, fetchUser } = useDirectusAuth();
 
-	if (config.auth.enableGlobalAuthMiddleware === true) {
-		if (to.meta.auth === false) {
-			return;
-		}
-	}
+  console.log("user", user.value);
 
-	// Check both user state and localStorage to handle race conditions
-	if (!user.value && !_loggedIn.get()) {
-		return navigateTo({
-			path: config.auth.redirect.login,
-			query: { redirect: to.path },
-		});
-	}
+  if (
+    to.path === config.auth.redirect.login ||
+    to.path === config.auth.redirect.callback
+  ) {
+    return;
+  }
+
+  if (config.auth.enableGlobalAuthMiddleware === true) {
+    if (to.meta.auth === false) {
+      return;
+    }
+  }
+
+  if (!user.value) {
+    console.log("fetchUserxss");
+    await fetchUser({ fields: ["*", { contacts: ["*"] }] });
+    console.log("res");
+    console.log("user", user.value);
+  }
+
+  if (!user.value) {
+    return navigateTo({
+      path: config.auth.redirect.login,
+      query: { redirect: to.path },
+    });
+  }
 });

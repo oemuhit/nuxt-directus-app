@@ -1,0 +1,18 @@
+{
+  "vars": {
+    "DIRECTUS_URL": "https://cloud.sociarin.com",
+    "DIRECTUS_SERVER_TOKEN": "PyIUTUDw0yG8EL15roo7__NQFl5OSQap",
+    "DIRECTUS_SERVER_PUBLIC_TOKEN": "B2x-jDwB94W3pPcIbgqWPi9z9_Ctafml",
+    "NUXT_PUBLIC_SITE_URL": "https://oemuhit-nuxt-directus-app.oertugrulmuhit.workers.dev",
+    "NUXT_PUBLIC_ENABLE_VISUAL_EDITING": "true"
+  },
+
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "invocation_logs": true,
+      "persist": true
+    }
+  }
+}

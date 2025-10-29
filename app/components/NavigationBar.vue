@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { Menu, ChevronDown } from "lucide-vue-next";
-
+import { cn } from "@/lib/utils";
 interface NavigationItem {
   id: string;
   title: string;
@@ -85,6 +84,7 @@ bg-background
 
       <nav class="flex items-center gap-4">
         <SearchModel />
+
         <NavigationMenu
           class="hidden md:flex"
           :data-directus="
@@ -209,13 +209,23 @@ bg-background
         </Button>
 
         <ThemeToggle class="cursor-pointer" />
+        <Button @click="navigateTo('/dashboard')" class="" variant="ghost">
+          #
+        </Button>
       </nav>
     </Container>
 
     <!--TODO: Add a background color to the navigation bar when the menu is open-->
     <div
-      class="-z-10 absolute top-0 left-0 w-full h-full _bg-black _opacity-80 bg-white opacity-100 dark:opacity-100 dark:bg-black"
-    ></div>
+      :class="
+        cn(
+          ' -z-10 absolute top-0 left-0 w-full h-full bg-white opacity-100 dark:opacity-100 dark:bg-black',
+          'bg-transparent dark:bg-transparent'
+        )
+      "
+    >
+      <div class="bg-black opacity-80 w-full h-full"></div>
+    </div>
   </header>
 </template>
 

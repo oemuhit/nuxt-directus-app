@@ -10,10 +10,20 @@ export default defineNuxtConfig({
       autoSubfolderIndex: false,
     },
   }, */
+
+  nitro: {
+    preset: "cloudflare_module",
+    cloudflare: {
+      deployConfig: true,
+      nodeCompat: true,
+    },
+  },
+
   components: [
     {
       path: "~/components/ui",
       pathPrefix: false,
+      extensions: [".vue"],
     },
     { path: "~/components", pathPrefix: false },
     { path: "~/components/block", pathPrefix: false },
@@ -52,6 +62,7 @@ export default defineNuxtConfig({
         process.env.NUXT_PUBLIC_ENABLE_VISUAL_EDITING !== "false",
     },
     directusServerToken: process.env.DIRECTUS_SERVER_TOKEN,
+    directusServerPublicToken: process.env.DIRECTUS_SERVER_PUBLIC_TOKEN,
   },
 
   // Directus Configuration

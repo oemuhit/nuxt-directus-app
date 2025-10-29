@@ -1,4 +1,5 @@
 import { withoutTrailingSlash, withLeadingSlash } from "ufo";
+import { staticToken } from "@directus/sdk";
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
@@ -16,270 +17,292 @@ export default defineEventHandler(async (event) => {
       statusMessage: "Page not found! devtools",
     });
   }
-  const token = preview === "true" && rawToken ? String(rawToken) : null;
+  /*   const authToken = getCookie(event, "directus_session_token");
+   */
+
+  //Permalink uses auth token, preview uses raw token
+
+  let cookieToken;
+  try {
+    console.log("parsing cookies");
+    const cookies = parseCookies(event);
+    cookieToken = cookies.directus_session_token;
+  } catch (error) {
+    console.error("Error parsing cookies:", error);
+  }
+
+  const token =
+    preview === "true" && rawToken
+      ? String(rawToken)
+      : (cookieToken || "")?.length > 0
+      ? cookieToken
+      : null;
+
+  console.log("tokenC", token);
+  // Eğer kullanıcı token'ı varsa o token ile yeni bir client oluştur
+  const directusClient = token
+    ? directusServerPublic.with(staticToken(token))
+    : directusServerPublic;
 
   try {
-    const pageData = await directusServer.request(
-      withToken(
-        token as string,
-        readItems("pages", {
-          filter: { permalink: { _eq: permalink } },
-          limit: 1,
-          fields: [
-            "title",
-            "id",
-            {
-              seo: ["title", "meta_description", "og_image"],
-              blocks: [
-                "id",
-                "background",
-                "collection",
-                "item",
-                "sort",
-                "hide_block",
-                {
-                  item: {
-                    block_faq: ["id", "tagline", "headline", "faqs"],
+    const pageData = await directusClient.request(
+      readItems("pages", {
+        filter: { permalink: { _eq: permalink } },
+        limit: 1,
+        fields: [
+          "title",
+          "id",
+          {
+            seo: ["title", "meta_description", "og_image"],
+            blocks: [
+              "id",
+              "background",
+              "collection",
+              "item",
+              "sort",
+              "hide_block",
+              {
+                item: {
+                  block_faq: ["id", "tagline", "headline", "faqs"],
 
-                    block_row_sequential: [
-                      "id",
-                      "tagline",
-                      "headline",
-                      "content",
-                      "bg_type",
-                      "bg_color",
-                      "bg_image",
-                      "mouse_aware_bg",
-                      "full_width",
-                      "template",
-                      {
-                        button: ["*", { page: ["permalink"], post: ["slug"] }],
-                      },
-                    ],
-                    block_row_vertical: [
-                      "id",
-                      "tagline",
-                      "headline",
-                      "content",
-                      "bg_type",
-                      "bg_color",
-                      "bg_image",
-                      "mouse_aware_bg",
-                      "full_width",
-                      "template",
-                    ],
+                  block_row_sequential: [
+                    "id",
+                    "tagline",
+                    "headline",
+                    "content",
+                    "bg_type",
+                    "bg_color",
+                    "bg_image",
+                    "mouse_aware_bg",
+                    "full_width",
+                    "template",
+                    {
+                      button: ["*", { page: ["permalink"], post: ["slug"] }],
+                    },
+                  ],
+                  block_row_vertical: [
+                    "id",
+                    "tagline",
+                    "headline",
+                    "content",
+                    "bg_type",
+                    "bg_color",
+                    "bg_image",
+                    "mouse_aware_bg",
+                    "full_width",
+                    "template",
+                  ],
 
-                    block_row_normal: [
-                      "id",
-                      "tagline",
-                      "headline",
-                      "description",
-                      "layout",
-                      "image",
-                      "video_url",
-                      "media_type",
-                      "video_file",
-                      "video_type",
-                      "bg_type",
-                      "bg_color",
-                      "bg_image",
-                      "mouse_aware_bg",
-                      "full_width",
-                      "template",
+                  block_row_normal: [
+                    "id",
+                    "tagline",
+                    "headline",
+                    "description",
+                    "layout",
+                    "image",
+                    "video_url",
+                    "media_type",
+                    "video_file",
+                    "video_type",
+                    "bg_type",
+                    "bg_color",
+                    "bg_image",
+                    "mouse_aware_bg",
+                    "full_width",
+                    "template",
 
-                      {
-                        button_group: [
-                          "id",
-                          {
-                            buttons: [
-                              "id",
-                              "label",
-                              "variant",
-                              "url",
-                              "type",
-                              { page: ["permalink"] },
-                              { post: ["slug"] },
-                            ],
-                          },
-                        ],
-                      },
-                    ],
+                    {
+                      button_group: [
+                        "id",
+                        {
+                          buttons: [
+                            "id",
+                            "label",
+                            "variant",
+                            "url",
+                            "type",
+                            { page: ["permalink"] },
+                            { post: ["slug"] },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
 
-                    block_vertical_menu: [
-                      "id",
+                  block_vertical_menu: [
+                    "id",
 
-                      {
-                        items: [
-                          "id",
-                          "image",
-                          "title",
-                          "headline",
-                          {
-                            btn: ["*", { page: ["permalink"], post: ["slug"] }],
-                          },
-                        ],
-                      },
-                    ],
-                    block_richtext: [
-                      "id",
-                      "tagline",
-                      "headline",
-                      "content",
-                      "alignment",
-                    ],
-                    block_gallery: [
-                      "id",
-                      "tagline",
-                      "headline",
-                      { items: ["id", "directus_file", "sort"] },
-                    ],
-                    block_pricing: [
-                      "id",
-                      "tagline",
-                      "headline",
-                      {
-                        pricing_cards: [
-                          "id",
-                          "sort",
-                          "title",
-                          "description",
-                          "price",
-                          "badge",
-                          "features",
-                          "is_highlighted",
-                          {
-                            button: [
-                              "id",
-                              "label",
-                              "variant",
-                              "url",
-                              "type",
-                              { page: ["permalink"] },
-                              { post: ["slug"] },
-                            ],
-                          },
-                        ],
-                      },
-                    ],
-                    block_hero: [
-                      "id",
-                      "tagline",
-                      "headline",
-                      "description",
-                      "layout",
-                      "image",
-                      {
-                        button_group: [
-                          "id",
-                          {
-                            buttons: [
-                              "id",
-                              "label",
-                              "variant",
-                              "url",
-                              "type",
-                              { page: ["permalink"] },
-                              { post: ["slug"] },
-                            ],
-                          },
-                        ],
-                      },
-                    ],
-                    block_posts: [
-                      "id",
-                      "tagline",
-                      "headline",
-                      "collection",
-                      "limit",
-                    ],
-                    block_form: [
-                      "id",
-                      "tagline",
-                      "headline",
-                      {
-                        form: [
-                          "id",
-                          "title",
-                          "submit_label",
-                          "success_message",
-                          "on_success",
-                          "success_redirect_url",
-                          "is_active",
-                          {
-                            fields: [
-                              "id",
-                              "name",
-                              "type",
-                              "label",
-                              "placeholder",
-                              "help",
-                              "validation",
-                              "width",
-                              "choices",
-                              "required",
-                              "sort",
-                            ],
-                          },
-                        ],
-                      },
-                    ],
+                    {
+                      items: [
+                        "id",
+                        "image",
+                        "title",
+                        "headline",
+                        {
+                          btn: ["*", { page: ["permalink"], post: ["slug"] }],
+                        },
+                      ],
+                    },
+                  ],
+                  block_richtext: [
+                    "id",
+                    "tagline",
+                    "headline",
+                    "content",
+                    "alignment",
+                  ],
+                  block_gallery: [
+                    "id",
+                    "tagline",
+                    "headline",
+                    { items: ["id", "directus_file", "sort"] },
+                  ],
+                  block_pricing: [
+                    "id",
+                    "tagline",
+                    "headline",
+                    {
+                      pricing_cards: [
+                        "id",
+                        "sort",
+                        "title",
+                        "description",
+                        "price",
+                        "badge",
+                        "features",
+                        "is_highlighted",
+                        {
+                          button: [
+                            "id",
+                            "label",
+                            "variant",
+                            "url",
+                            "type",
+                            { page: ["permalink"] },
+                            { post: ["slug"] },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                  block_hero: [
+                    "id",
+                    "tagline",
+                    "headline",
+                    "description",
+                    "layout",
+                    "image",
+                    {
+                      button_group: [
+                        "id",
+                        {
+                          buttons: [
+                            "id",
+                            "label",
+                            "variant",
+                            "url",
+                            "type",
+                            { page: ["permalink"] },
+                            { post: ["slug"] },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                  block_posts: [
+                    "id",
+                    "tagline",
+                    "headline",
+                    "collection",
+                    "limit",
+                  ],
+                  block_form: [
+                    "id",
+                    "tagline",
+                    "headline",
+                    {
+                      form: [
+                        "id",
+                        "title",
+                        "submit_label",
+                        "success_message",
+                        "on_success",
+                        "success_redirect_url",
+                        "is_active",
+                        {
+                          fields: [
+                            "id",
+                            "name",
+                            "type",
+                            "label",
+                            "placeholder",
+                            "help",
+                            "validation",
+                            "width",
+                            "choices",
+                            "required",
+                            "sort",
+                          ],
+                        },
+                      ],
+                    },
+                  ],
 
-                    block_steps: [
-                      "id",
-                      "title",
-                      "headline",
-                      "show_step_numbers",
-                      "alternate_image_position",
-                      {
-                        steps: [
-                          "id",
-                          "title",
-                          "content",
-                          "image",
-                          {
-                            button_group: [
-                              "*",
-                              {
-                                buttons: [
-                                  "*",
-                                  { page: ["permalink"], post: ["slug"] },
-                                ],
-                              },
-                            ],
-                          },
-                        ],
-                      },
-                    ],
-                    block_cta: [
-                      "id",
-                      "title",
-                      "headline",
-                      "content",
-                      {
-                        button_group: [
-                          "*",
-                          {
-                            buttons: [
-                              "*",
-                              { page: ["permalink"], post: ["slug"] },
-                            ],
-                          },
-                        ],
-                      },
-                    ],
-                  },
+                  block_steps: [
+                    "id",
+                    "title",
+                    "headline",
+                    "show_step_numbers",
+                    "alternate_image_position",
+                    {
+                      steps: [
+                        "id",
+                        "title",
+                        "content",
+                        "image",
+                        {
+                          button_group: [
+                            "*",
+                            {
+                              buttons: [
+                                "*",
+                                { page: ["permalink"], post: ["slug"] },
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                  block_cta: [
+                    "id",
+                    "title",
+                    "headline",
+                    "content",
+                    {
+                      button_group: [
+                        "*",
+                        {
+                          buttons: [
+                            "*",
+                            { page: ["permalink"], post: ["slug"] },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
                 },
-              ],
-            },
-          ],
-          deep: {
-            blocks: {
-              _sort: ["sort"],
-              _filter: { hide_block: { _neq: true } },
-            },
+              },
+            ],
           },
-        })
-      )
+        ],
+        deep: {
+          blocks: {
+            _sort: ["sort"],
+            _filter: { hide_block: { _neq: true } },
+          },
+        },
+      })
     );
 
     if (!pageData.length) {

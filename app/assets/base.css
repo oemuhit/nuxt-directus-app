@@ -13,7 +13,7 @@
   --card-foreground: rgb(0, 0, 0);
   --popover: rgb(252, 252, 252);
   --popover-foreground: rgb(0, 0, 0);
-  --primary: darkorange; /* rgb(112, 51, 255); */
+  --primary: rgb(112, 51, 255);
   --primary-foreground: rgb(255, 255, 255);
   --secondary: rgb(237, 240, 244);
   --secondary-foreground: rgb(8, 8, 8);

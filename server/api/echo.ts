@@ -1,5 +1,3 @@
-import { directusFactory } from "../utils/directus-server";
-
 export default defineEventHandler(async (event) => {
   const cookies = parseCookies(event);
   const headers = getHeaders(event);

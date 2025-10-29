@@ -21,14 +21,23 @@ if (siteError.value) {
 }
 
 useHead({
-  style: [
+  /*  style: [
+        {
+      id: "primary-color",
+      innerHTML: `:root { --primary: ${
+        unref(siteData)?.globals.accent_color || "#666666"
+      } !important; }`,
+    }, */
+  /*     {
+      innerHTML: unref(siteData)?.globals.template || "",
+    }, 
     {
       id: "accent-color",
       innerHTML: `:root { --accent-color: ${
         unref(siteData)?.globals.accent_color || "#6644ff"
       } !important; }`,
     },
-  ],
+  ], */
   bodyAttrs: {
     class: "antialiased font-sans",
   },

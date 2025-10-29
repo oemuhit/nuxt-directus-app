@@ -5,6 +5,8 @@
       <p>Welcome to the dashboard</p>
       <Button @click="fetchUser" class="mt-4"> Fetch User </Button>
 
+      <Button @click="navigateTo('/')" variant="outline"> # </Button>
+
       <div v-if="user" class="mt-4">
         <h2>User Information</h2>
         <p>

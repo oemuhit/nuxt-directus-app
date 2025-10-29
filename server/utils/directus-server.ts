@@ -21,6 +21,7 @@ import { joinURL } from "ufo";
 const {
   public: { directusUrl },
   directusServerToken,
+  directusServerPublicToken,
 } = useRuntimeConfig();
 
 // By default, we use the Public permissions to fetch content (even on the server side). If you want to restrict public access it's recommended to use the staticToken option.
@@ -31,6 +32,14 @@ const directusServer = createDirectus<Schema>(directusUrl as string, {
 })
   .with(rest())
   .with(staticToken(directusServerToken as string));
+// By default, we use the Public permissions to fetch content (even on the server side). If you want to restrict public access it's recommended to use the staticToken option.
+const directusServerPublic = createDirectus<Schema>(directusUrl as string, {
+  globals: {
+    fetch: $fetch,
+  },
+})
+  .with(rest())
+  .with(staticToken(directusServerPublicToken as string));
 
 /* const directusFactory = (event: any) => {
   const customFetch = (request: RequestInfo, options: any = {}) => {
@@ -40,6 +49,7 @@ const directusServer = createDirectus<Schema>(directusUrl as string, {
         cookie: event.node.req.headers.cookie,
       };
     }
+
     return $fetch(request, options);
   };
 
@@ -54,7 +64,7 @@ const directusServer = createDirectus<Schema>(directusUrl as string, {
 
 export {
   directusServer,
-  directusFactory,
+  directusServerPublic,
   readItem,
   readItems,
   readMe,
