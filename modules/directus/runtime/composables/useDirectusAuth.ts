@@ -39,6 +39,45 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
 
   const config = useRuntimeConfig();
 
+  const _loggedIn = {
+    get: () => {
+      // SSR tarafında güvenli okuma
+      if (import.meta.server) {
+        const cookie = useCookie("authenticated", {
+          path: "/",
+          sameSite: "lax",
+          secure: true || process.env.NODE_ENV === "production",
+          httpOnly: true,
+        });
+        console.log("get [SSR]", cookie.value);
+        return cookie.value?.toString() === "true";
+      }
+
+      // CSR tarafında (tarayıcıda) httpOnly cookie okunamaz
+      // bu yüzden httpOnly=false ile eriş
+      const cookie = useCookie("authenticated", {
+        path: "/",
+        sameSite: "lax",
+        secure: true || process.env.NODE_ENV === "production",
+      });
+      console.log("get [CSR]", cookie.value);
+      return cookie.value?.toString() === "true";
+    },
+
+    set: (value: boolean) => {
+      // SSR’de cookie set etmek anlamsız (redirect dışında)
+      if (import.meta.server) return;
+
+      // Client tarafında cookie yaz
+      const cookie = useCookie("authenticated", {
+        path: "/",
+        sameSite: "lax",
+        secure: true || process.env.NODE_ENV === "production",
+      });
+      console.log("set [CSR]", value);
+      cookie.value = value.toString();
+    },
+  };
   async function login(email: string, password: string, otp?: string) {
     const route = useRoute();
 
@@ -46,6 +85,8 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
 
     const returnPath = route.query.redirect?.toString();
     const redirect = returnPath ? returnPath : "/dashboard";
+
+    _loggedIn.set(true);
 
     // Fetch user data first, then navigate
     await fetchUser({ fields: ["*", { contacts: ["*"] }] });
@@ -62,6 +103,7 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
     await $directus.logout();
 
     user.value = null;
+    _loggedIn.set(false);
 
     await clearNuxtData();
     await navigateTo(
@@ -102,5 +144,6 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
     login,
     logout,
     fetchUser,
+    _loggedIn,
   };
 }

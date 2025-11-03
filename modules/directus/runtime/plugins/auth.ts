@@ -24,15 +24,23 @@ export default defineNuxtPlugin(async () => {
 
     const initialized = useState("directus-auth-initialized", () => false);
 
-    const { user, fetchUser } = useDirectusAuth();
+    const { user, fetchUser, _loggedIn } = useDirectusAuth();
 
+    console.log("get [PLUGIN]", _loggedIn.get());
+    console.log("initialized [PLUGIN]", initialized.value);
     /* Mark: if logged in */
-    if (initialized.value === false) {
+    if (initialized.value === false && _loggedIn.get()) {
       console.log("fetchUser in plugin  not initialized but logged in");
       await fetchUser({});
     }
 
     initialized.value = true;
+
+    if (user.value) {
+      _loggedIn.set(true);
+    } else {
+      _loggedIn.set(false);
+    }
   } catch (err: any) {
     console.error(err);
   }

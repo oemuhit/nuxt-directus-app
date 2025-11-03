@@ -11,6 +11,13 @@ export default defineNuxtConfig({
     },
   }, */
 
+  devServer: {
+    https: {
+      key: "./server.key",
+      cert: "./server.crt",
+    },
+  },
+
   nitro: {
     preset: "cloudflare_module",
     cloudflare: {
