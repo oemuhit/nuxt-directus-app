@@ -17,6 +17,15 @@ export default defineNuxtConfig({
       deployConfig: true,
       nodeCompat: true,
     },
+    // Burası sihirli kısım: Nitro'nun cache sürücüsünü bu KV binding'e yönlendiririz
+    storage: {
+      // 'cache' depolama alanını (useStorage('cache')) KV'ye yönlendir
+      cache: {
+        driver: "cloudflare-kv-binding", // Nitro'nun KV sürücüsü adı
+        // Hangi binding'i kullanacağını belirtiyoruz
+        binding: "NITRO_CACHE",
+      },
+    },
   },
 
   components: [
@@ -34,6 +43,8 @@ export default defineNuxtConfig({
 
   routeRules: {
     "/proxy/example/**": { proxy: "https://tr.wikipedia.org/" },
+
+    "/blog/**": { cache: { maxAge: 3600, swr: true } },
 
     // '/**': {
     // 	prerender: true,

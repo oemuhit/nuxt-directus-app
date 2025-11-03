@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
 
   //Permalink uses auth token, preview uses raw token
 
-  let cookieToken;
+  /*   let cookieToken;
   try {
     console.log("parsing cookies");
     const cookies = parseCookies(event);
@@ -42,10 +42,10 @@ export default defineEventHandler(async (event) => {
   // Eğer kullanıcı token'ı varsa o token ile yeni bir client oluştur
   const directusClient = token
     ? directusServerPublic.with(staticToken(token))
-    : directusServerPublic;
+    : directusServerPublic; */
 
   try {
-    const pageData = await directusClient.request(
+    const pageData = await directusServer.request(
       readItems("pages", {
         filter: { permalink: { _eq: permalink } },
         limit: 1,

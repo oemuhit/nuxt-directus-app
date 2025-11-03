@@ -7,7 +7,7 @@ import {
 
 export default defineNuxtRouteMiddleware(async (to) => {
   const config = useRuntimeConfig().public.directus;
-  const { user, _loggedIn, fetchUser } = useDirectusAuth();
+  const { user, fetchUser } = useDirectusAuth();
 
   console.log("user", user.value);
 
@@ -22,13 +22,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
     if (to.meta.auth === false) {
       return;
     }
-  }
-
-  if (!user.value) {
-    console.log("fetchUserxss");
-    await fetchUser({ fields: ["*", { contacts: ["*"] }] });
-    console.log("res");
-    console.log("user", user.value);
   }
 
   if (!user.value) {

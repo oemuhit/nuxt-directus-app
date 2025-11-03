@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.921.0",
     "@directus/sdk": "^20.1.0",
     "@directus/types": "^13.2.3",
     "@directus/visual-editing": "^1.1.0",

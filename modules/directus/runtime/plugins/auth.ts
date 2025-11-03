@@ -24,22 +24,16 @@ export default defineNuxtPlugin(async () => {
 
     const initialized = useState("directus-auth-initialized", () => false);
 
-    const { _loggedIn, user, fetchUser } = useDirectusAuth();
+    const { user, fetchUser } = useDirectusAuth();
 
     /* Mark: if logged in */
-    if (initialized.value === false && _loggedIn.get()) {
+    if (initialized.value === false) {
+      console.log("fetchUser in plugin  not initialized but logged in");
       await fetchUser({});
     }
 
     initialized.value = true;
-
-    // Sync the logged in state with user data
-    if (user.value) {
-      _loggedIn.set(true);
-    } else {
-      _loggedIn.set(false);
-    }
   } catch (err: any) {
-    // console.error(e)
+    console.error(err);
   }
 });

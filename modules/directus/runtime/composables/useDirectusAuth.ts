@@ -1,7 +1,19 @@
-import { readMe, passwordRequest, passwordReset } from "@directus/sdk";
+import {
+  readMe,
+  createDirectus,
+  rest,
+  passwordRequest,
+  passwordReset,
+  staticToken,
+} from "@directus/sdk";
+import { joinURL } from "ufo";
+
+import { withToken } from "@directus/sdk";
 import type { RestClient, AuthenticationClient } from "@directus/sdk";
+
 import type { Schema } from "#shared/types/schema";
 import type { DirectusUser } from "#shared/types/schema";
+import { parseCookies } from "h3";
 
 import {
   useState,
@@ -27,26 +39,6 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
 
   const config = useRuntimeConfig();
 
-  const _loggedIn = {
-    //process.client &&
-    /* 		get: () => {
-			return process.client && localStorage.getItem('authenticated');
-		},
-		set: (value: boolean) => process.client && localStorage.setItem('authenticated', value.toString()),
-	 */
-
-    get: () => {
-      const cookie = useCookie("authenticated", { path: "/", sameSite: "lax" });
-      console.log("get", cookie.value);
-      return cookie.value?.toString() === "true";
-    },
-    set: (value: boolean) => {
-      const cookie = useCookie("authenticated", { path: "/", sameSite: "lax" });
-      console.log("set", value);
-      cookie.value = value.toString();
-    },
-  };
-
   async function login(email: string, password: string, otp?: string) {
     const route = useRoute();
 
@@ -54,8 +46,6 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
 
     const returnPath = route.query.redirect?.toString();
     const redirect = returnPath ? returnPath : "/dashboard";
-
-    _loggedIn.set(true);
 
     // Fetch user data first, then navigate
     await fetchUser({ fields: ["*", { contacts: ["*"] }] });
@@ -72,7 +62,6 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
     await $directus.logout();
 
     user.value = null;
-    _loggedIn.set(false);
 
     await clearNuxtData();
     await navigateTo(
@@ -81,6 +70,10 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
   }
 
   async function fetchUser(params?: object) {
+    if (user.value) {
+      return;
+    }
+
     const fields = config.public?.directus?.auth?.userFields || ["*"];
 
     try {
@@ -95,9 +88,9 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
       user.value = response as DirectusUser;
 
       // Force reactivity update
-      /*  nextTick(() => {
+      nextTick(() => {
         console.log("User state after nextTick:", user.value);
-      }); */
+      });
     } catch (error) {
       console.error("Error fetching user data:", error);
       user.value = null;
@@ -109,6 +102,5 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
     login,
     logout,
     fetchUser,
-    _loggedIn,
   };
 }
