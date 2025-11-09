@@ -209,9 +209,9 @@ bg-background
         </Button>
 
         <ThemeToggle class="cursor-pointer" />
-        <Button @click="navigateTo('/dashboard')" class="" variant="ghost">
+        <!--         <Button @click="navigateTo('/dashboard')" class="" variant="ghost">
           #
-        </Button>
+        </Button> -->
       </nav>
     </Container>
 

@@ -100,7 +100,12 @@ onMounted(() => {
         backgroundImage:
           data.bg_type === 'image'
             ? data?.bg_image
-              ? 'url(' + directusUrl + '/assets/' + data?.bg_image + ')'
+              ? 'url(' +
+                directusUrl +
+                '/assets/' +
+                data?.bg_image +
+                '?key=1200w' +
+                ')'
               : 'none'
             : 'none',
       }"
@@ -141,7 +146,7 @@ onMounted(() => {
         <div class="px-4 md:py-4 md:px-4 box1">
           <BoxReveal color="--primary">
             <TypographyTitle
-              class="text-5xl md:text-7xl !font-black font-heading"
+              class="text-5xl md:text-7xl font-black! font-heading"
               v-if="data?.tagline"
               :class="data?.template?.tagline"
             >

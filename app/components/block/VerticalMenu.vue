@@ -156,6 +156,9 @@ function handleClick(item: BlockVerticalMenuItem) {
               class="w-full h-full md:h-screen object-cover"
               :src="safeRelationId(item.image) as string"
               :alt="item.title || 'Menu item image'"
+              :modifiers="{
+                key: '800w',
+              }"
             />
           </div>
 
@@ -205,7 +208,7 @@ function handleClick(item: BlockVerticalMenuItem) {
   transition: background-color 3s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .panel.active .dh1 {
-  color: orangered;
+  color: var(--primary);
 }
 
 .panel .dh1 span.hide {

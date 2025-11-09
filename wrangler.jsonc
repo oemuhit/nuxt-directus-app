@@ -2,7 +2,7 @@
   "name": "oemuhit-nuxt-directus-app",
   "vars": {
     "DIRECTUS_URL": "https://cloud.sociarin.com",
-    "NUXT_PUBLIC_SITE_URL": "https://oemuhit-nuxt-directus-app.oertugrulmuhit.workers.dev",
+    "NUXT_PUBLIC_SITE_URL": "https://dev.sociarin.com",
     "NUXT_PUBLIC_ENABLE_VISUAL_EDITING": "true"
   },
 

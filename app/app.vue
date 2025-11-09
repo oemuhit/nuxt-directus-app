@@ -1,5 +1,29 @@
 <template>
   <div>
+    <div class="prose prose-stone">
+      <h1>Hello World</h1>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua.
+      </p>
+      <ul>
+        <li>Liste öğesi 1</li>
+        <li>Liste öğesi 2</li>
+        <li>Liste öğesi 3</li>
+      </ul>
+    </div>
+    <div class="prose prose-neutral text-4xl">
+      <h1>Hello World</h1>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua.
+      </p>
+      <ul>
+        <li>Liste öğesi 1</li>
+        <li>Liste öğesi 2</li>
+        <li>Liste öğesi 3</li>
+      </ul>
+    </div>
     <DevToolbar />
     <NuxtRouteAnnouncer />
     <NuxtLoadingIndicator

@@ -8,7 +8,7 @@ import type {
 import { setAttr, apply } from "@directus/visual-editing";
 import { motion } from "motion-v";
 import Button, { type ButtonProps } from "../base/BaseButton.vue";
-
+import { cn } from "@/lib/utils";
 const props = defineProps<{
   data: BlockRowSequential;
 }>();
@@ -103,7 +103,12 @@ onMounted(() => {
         backgroundImage:
           data.bg_type === 'image'
             ? data?.bg_image
-              ? 'url(' + directusUrl + '/assets/' + data?.bg_image + ')'
+              ? 'url(' +
+                directusUrl +
+                '/assets/' +
+                data?.bg_image +
+                '?key=1200w' +
+                ')'
               : 'none'
             : 'none',
       }"
@@ -170,7 +175,8 @@ onMounted(() => {
             :class="data?.template?.headline"
             v-if="data?.headline"
             :content="data?.headline"
-        /></motion.div>
+          />
+        </motion.div>
 
         <motion.div
           class="z-1"
@@ -180,16 +186,16 @@ onMounted(() => {
             y: 0,
             transition: { duration: 0.2 },
           }"
-          ><TypographyProse
+        >
+          <TypographyProse
             v-if="data?.content"
             :content="data?.content"
-            class="mt-4 px-4 md:px-0"
-            :class="data?.template?.content"
+            :class="cn('mt-4 px-4 md:px-0', data?.template?.content)"
         /></motion.div>
 
         <div
           v-if="data.button"
-          :class="`flex flex-col justify-center space-y-4 md:space-x-4 md:flex-row md:space-y-0 `"
+          :class="`z-10 flex flex-col justify-center space-y-4 md:space-x-4 md:flex-row md:space-y-0 `"
         >
           <!-- 		:size="'lg' || data.button?.size ?? 'default'"
  -->

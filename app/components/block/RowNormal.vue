@@ -96,7 +96,12 @@ const videoUrl = computed(() => {
         backgroundImage:
           data.bg_type === 'image'
             ? data?.bg_image
-              ? 'url(' + directusUrl + '/assets/' + data?.bg_image + ')'
+              ? 'url(' +
+                directusUrl +
+                '/assets/' +
+                data?.bg_image +
+                '?key=1200w' +
+                ')'
               : 'none'
             : 'none',
       }"
@@ -138,7 +143,7 @@ const videoUrl = computed(() => {
         class="flex flex-col gap-4 w-full"
         :class="{
           'md:w-3/4 xl:w-2/3 items-center': data.layout === 'image_center',
-          'md:w-1/2 items-start': data.layout !== 'image_center',
+          'md:w-1/2 items-start  mt-12 md:mt-0': data.layout !== 'image_center',
         }"
       >
         <Tagline
@@ -167,10 +172,11 @@ const videoUrl = computed(() => {
             })
           "
         />
+
         <Text
           v-if="data.description"
           :content="data.description"
-          :class="data?.template?.description"
+          :class="data?.template?.content"
           :data-directus="
             setAttr({
               collection: 'block_hero',

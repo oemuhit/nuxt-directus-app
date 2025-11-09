@@ -2,7 +2,7 @@
 
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
-@source inline("py-[0rem] !py-0 text-green-100 text-green-400 text-accent !text-accent !text-primary !text-orange-800 dark:!text-orange-800  min-h-screen");
+@source inline(" text-lg md:text-xl lg:text-xl xl:text-2xl text-xl md:text-2xl lg:text-2xl xl:text-3xl text-2xl md:text-3xl lg:text-3xl xl:text-4xl md:text-4xl lg:text-4xl xl:text-5xl  py-[0rem] !py-0 text-green-100 text-green-400 text-accent !text-accent !text-primary !text-orange-800 dark:!text-orange-800  min-h-screen text-xl text-2xl text-3xl text-4xl text-5xl text-6xl text-7xl font-bold");
 
 @custom-variant dark (&:is(.dark *));
 
@@ -13,7 +13,7 @@
   --card-foreground: rgb(0, 0, 0);
   --popover: rgb(252, 252, 252);
   --popover-foreground: rgb(0, 0, 0);
-  --primary: darkorange; /* rgb(112, 51, 255); */
+  --primary: var(--color-orange-600); /* rgb(112, 51, 255); */
   --primary-foreground: rgb(255, 255, 255);
   --secondary: rgb(237, 240, 244);
   --secondary-foreground: rgb(8, 8, 8);
@@ -39,9 +39,9 @@
   --sidebar-accent-foreground: rgb(0, 0, 0);
   --sidebar-border: rgb(235, 235, 235);
   --sidebar-ring: rgb(0, 0, 0);
-  --font-sans: Plus Jakarta Sans, sans-serif;
+  /*   --font-sans: Plus Jakarta Sans, sans-serif;
   --font-serif: Lora, serif;
-  --font-mono: IBM Plex Mono, monospace;
+  --font-mono: IBM Plex Mono, monospace; */
   --radius: 1.4rem;
   --shadow-x: 0px;
   --shadow-y: 2px;
@@ -73,7 +73,7 @@
   --card-foreground: rgb(240, 240, 240);
   --popover: rgb(34, 35, 39);
   --popover-foreground: rgb(240, 240, 240);
-  --primary: rgb(140, 92, 255);
+  --primary: var(--color-orange-400); /*rgb(140, 92, 255);*/
   --primary-foreground: rgb(255, 255, 255);
   --secondary: rgb(42, 44, 51);
   --secondary-foreground: rgb(240, 240, 240);
@@ -99,9 +99,9 @@
   --sidebar-accent-foreground: rgb(140, 92, 255);
   --sidebar-border: rgb(51, 53, 58);
   --sidebar-ring: rgb(140, 92, 255);
-  --font-sans: Plus Jakarta Sans, sans-serif;
+  /*   --font-sans: Plus Jakarta Sans, sans-serif;
   --font-serif: Lora, serif;
-  --font-mono: IBM Plex Mono, monospace;
+  --font-mono: IBM Plex Mono, monospace; */
   --radius: 1.4rem;
   --shadow-x: 0px;
   --shadow-y: 2px;
@@ -255,7 +255,7 @@ html.light {
      ----------------------------- */
 @layer components_ {
   /* 🌞 Default (Light) */
-  .prose {
+  /*  .prose {
     color: var(--color-foreground);
     text-align: left;
     font-family: var(--font-sans);
@@ -297,7 +297,7 @@ html.light {
   .prose p {
     font-family: var(--font-sans);
     font-size: clamp(1rem, 2vw, 1.25rem);
-    font-weight: 400;
+    font-weight: 600;
     line-height: 1.75;
   }
 
@@ -368,7 +368,7 @@ html.light {
     margin: 0;
   }
 
-  /* 🌙 Dark Mode */
+
   .dark .prose {
     color: var(--color-foreground);
   }
@@ -381,10 +381,6 @@ html.light {
     border-left-color: var(--color-gray-dark);
   }
 
-  /*   input:focus,
-  textarea:focus,
-  select:focus,
-  button:focus, */
   a:focus,
   [role="button"]:focus {
     @apply outline-none ring-2 ring-[var(--accent-color)] ring-offset-2 ring-offset-background;
@@ -398,7 +394,7 @@ html.light {
     .inline-flex[class*="bg-gray"] {
       @apply bg-[#172940] text-white hover:bg-accent;
     }
-  }
+  } */
 }
 
 @layer utilities_ {

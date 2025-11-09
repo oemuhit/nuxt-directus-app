@@ -83,6 +83,7 @@ const linkComponent = computed(() => {
 </script>
 <template>
   <Button
+    class="cursor-pointer"
     :variant="variant as any"
     :size="size ?? 'default'"
     :class="buttonClasses"
