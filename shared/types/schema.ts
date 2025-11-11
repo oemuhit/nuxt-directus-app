@@ -160,6 +160,7 @@ export interface BlockFaq {
   tagline: string | null;
   headline: string | null;
   faqs: unknown | null;
+  template: string | null;
 }
 
 export interface BlockRowVertical {

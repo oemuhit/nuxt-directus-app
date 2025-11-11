@@ -83,8 +83,8 @@ bg-background
       </NuxtLink>
 
       <nav class="flex items-center gap-4">
-        <SearchModel />
-
+        <!--         <SearchModel />
+ -->
         <NavigationMenu
           class="hidden md:flex"
           :data-directus="
@@ -209,6 +209,7 @@ bg-background
         </Button>
 
         <ThemeToggle class="cursor-pointer" />
+
         <!--         <Button @click="navigateTo('/dashboard')" class="" variant="ghost">
           #
         </Button> -->

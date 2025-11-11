@@ -55,7 +55,7 @@ useSeoMeta({
 </script>
 <template>
   <div v-if="post" ref="wrapperRef">
-    <Container class="py-12">
+    <Container class="py-12 mt-12">
       <div v-if="post.image" class="mb-8 w-full">
         <div
           class="relative w-full h-[400px] overflow-hidden rounded-lg"
@@ -81,7 +81,7 @@ useSeoMeta({
       <Headline
         :headline="post.title"
         as="h2"
-        class="!text-accent mb-4"
+        class="mb-4"
         :data-directus="
           setAttr({
             collection: 'posts',

@@ -13,7 +13,12 @@
     <div
       class="relative text-center max-w-6xl px-4 md:px-0 pt-4 mx-auto flex flex-col gap-8 justify-center"
     >
-      <TypographyTitle as="h2" v-if="data.tagline" class="font-heading">
+      <TypographyTitle
+        as="h2"
+        v-if="data.tagline"
+        class="font-heading"
+        :class="data.template?.tagline"
+      >
         {{ data.tagline }}
       </TypographyTitle>
 
@@ -21,6 +26,7 @@
         v-if="data.headline"
         :content="data.headline"
         class="font-heading"
+        :class="data.template?.headline"
       />
 
       <Accordion type="single" collapsible>
@@ -29,15 +35,18 @@
           :key="index"
           :value="index + 'item'"
           class="py-2"
+          :class="data.template?.item"
         >
           <AccordionTrigger
             class="!text-none text-3xl !font-extrabold font-heading hover:!no-underline cursor-pointer"
+            :class="data.template?.item_question"
           >
             <div v-html="faq.question"></div>
           </AccordionTrigger>
           <AccordionContent>
             <div
               class="leading-relaxed text-2xl font-sans"
+              :class="data.template?.item_answer"
               v-html="faq.answer"
             ></div>
           </AccordionContent>

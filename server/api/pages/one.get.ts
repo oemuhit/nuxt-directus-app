@@ -63,7 +63,7 @@ export default defineEventHandler(async (event) => {
               "hide_block",
               {
                 item: {
-                  block_faq: ["id", "tagline", "headline", "faqs"],
+                  block_faq: ["id", "tagline", "headline", "faqs", "template"],
 
                   block_row_sequential: [
                     "id",
