@@ -78,7 +78,7 @@ watch(open, (isOpen) => {
     </Button>
 
     <CommandDialog v-model:open="open">
-      <Command class="min-h-[50vh]">
+      <Command>
         <DialogTitle class="p-2 sr-only">Search</DialogTitle>
         <DialogDescription class="px-2 sr-only"
           >Search for pages or posts</DialogDescription
@@ -90,14 +90,15 @@ watch(open, (isOpen) => {
           @input="(e) => debouncedFetchResults(e.target.value)"
         /> -->
 
-        <div class="relative flex items-center gap-2 mt-0 mr-12">
+        <div class="relative flex items-center gap-2 mt-0 mr-12 p-2">
           <Input
             placeholder="Search for pages or posts"
             @input="(e: Event) => debouncedFetchResults((e.target as HTMLInputElement).value)"
             class="pr-10"
           />
           <span class="absolute right-3">
-            <Search class="size-5 text-muted-foreground pointer-events-none" />
+            <!--             <Search class="size-5 text-muted-foreground pointer-events-none" />
+ -->
           </span>
         </div>
 

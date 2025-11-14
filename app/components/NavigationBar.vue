@@ -54,180 +54,179 @@ const handleLinkClick = () => {
  
 fixed sticky
 
-bg-background 
+bg-background  
 
 -->
-  <header
-    ref="navigationRef"
-    class="sticky md:fixed top-0 z-50 w-full text-foreground"
-  >
-    <Container class="flex items-center justify-between p-4">
-      <NuxtLink to="/" class="flex-shrink-0">
-        <Logo />
+  <div class="dark sticky md:fixed top-0 z-50 w-full">
+    <header ref="navigationRef">
+      <Container
+        class="flex items-center justify-between p-4 text-white dark:text-white"
+      >
+        <NuxtLink to="/" class="flex-shrink-0">
+          <!--      <Logo /> -->
 
-        <img
-          :src="lightLogoUrl"
-          alt="Logo"
-          class="w-[120px] h-auto dark:hidden"
-          width="150"
-          height="100"
-        />
-        <img
-          v-if="darkLogoUrl"
-          :src="darkLogoUrl"
-          alt="Logo (Dark Mode)"
-          class="w-[120px] h-auto hidden dark:block"
-          width="150"
-          height="100"
-        />
-      </NuxtLink>
+          <img
+            :src="lightLogoUrl"
+            alt="Logo"
+            class="w-[120px] h-auto dark:hidden"
+            width="150"
+            height="100"
+          />
+          <img
+            v-if="darkLogoUrl"
+            :src="darkLogoUrl"
+            alt="Logo (Dark Mode)"
+            class="w-[120px] h-auto hidden dark:block"
+            width="150"
+            height="100"
+          />
+        </NuxtLink>
 
-      <nav class="flex items-center gap-4">
-        <!--         <SearchModel />
- -->
-        <NavigationMenu
-          class="hidden md:flex"
-          :data-directus="
-            setAttr({
-              collection: 'navigation',
-              item: props.navigation.id,
-              fields: ['items'],
-              mode: 'modal',
-            })
-          "
-        >
-          <NavigationMenuList class="flex gap-6">
-            <NavigationMenuItem
-              v-for="section in props.navigation.items"
-              :key="section.id"
-            >
-              <template v-if="false && section.children?.length">
-                <NavigationMenuTrigger
-                  class="focus:outline-none font-heading !text-nav hover:bg-background hover:text-accent"
-                >
-                  {{ section.title }}
-                </NavigationMenuTrigger>
-                <NavigationMenuContent
-                  class="min-w-[200px] rounded-md bg-background p-4 shadow-md"
-                >
-                  <ul class="min-h-[100px] flex flex-col gap-2">
-                    <li v-for="child in section.children" :key="child.id">
-                      <NavigationMenuLink as-child>
-                        <NuxtLink
-                          :to="getNavItemUrl(child)"
-                          class="font-heading text-nav"
-                        >
-                          {{ child.title }}
-                        </NuxtLink>
-                      </NavigationMenuLink>
-                    </li>
-                  </ul>
-                </NavigationMenuContent>
-              </template>
-
-              <Popover v-if="section.children?.length" v-slot="{ close }">
-                <!-- === Trigger Button === -->
-                <PopoverTrigger as-child>
-                  <NuxtLink
-                    class="menu-link font-heading text-nav p-2 cursor-pointer"
+        <nav class="flex items-center gap-4">
+          <NavigationMenu
+            class="hidden md:flex"
+            :data-directus="
+              setAttr({
+                collection: 'navigation',
+                item: props.navigation.id,
+                fields: ['items'],
+                mode: 'modal',
+              })
+            "
+          >
+            <NavigationMenuList class="flex gap-6">
+              <NavigationMenuItem
+                v-for="section in props.navigation.items"
+                :key="section.id"
+              >
+                <template v-if="section.children?.length">
+                  <NavigationMenuTrigger
+                    @click="navigateTo(getNavItemUrl(section))"
+                    class="focus:outline-none font-heading !text-nav hover:bg-background hover:text-accent cursor-pointer"
                   >
                     {{ section.title }}
-                    <Icon
-                      name="heroicons:chevron-down"
-                      class="ml-1 w-5 h-5 text-gray-400"
-                    />
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent
+                    class="min-w-[200px] rounded-md bg-background p-4 shadow-md"
+                  >
+                    <ul class="min-h-[100px] flex flex-col gap-2">
+                      <li v-for="child in section.children" :key="child.id">
+                        <NavigationMenuLink as-child>
+                          <NuxtLink
+                            :to="getNavItemUrl(child)"
+                            class="font-heading text-nav"
+                          >
+                            {{ child.title }}
+                          </NuxtLink>
+                        </NavigationMenuLink>
+                      </li>
+                    </ul>
+                  </NavigationMenuContent>
+                </template>
+                <NavigationMenuLink v-else as-child>
+                  <NuxtLink
+                    :to="section.page?.permalink || section.url || '#'"
+                    class="font-heading text-nav p-2 focus:outline-none font-heading !text-nav hover:bg-background hover:text-accent"
+                  >
+                    {{ section.title }}
                   </NuxtLink>
-                </PopoverTrigger>
-
-                <!-- === Dropdown Content === -->
-                <PopoverContent
-                  class="z-50 mt-2 w-screen max-w-md bg-gray-800 shadow-lg rounded-2xl border border-gray-700 p-4 animate-in fade-in slide-in-from-top-2"
-                  align="start"
+                </NavigationMenuLink>
+                <Popover
+                  v-if="false && section.children?.length"
+                  v-slot="{ close }"
                 >
-                  <div class="grid gap-2">
-                    <NuxtLink
-                      v-for="childItem in section.children"
-                      :key="childItem.id"
-                      :to="getNavItemUrl(childItem)"
-                      @click="close()"
-                      class="flex items-start gap-4 p-4 rounded-xl transition duration-150 hover:bg-gray-900 group"
-                    >
-                      <div
-                        class="flex items-center justify-center flex-none w-11 h-11 p-2 border border-primary rounded-lg"
-                      >
-                        <Icon
-                          v-if="childItem.icon"
-                          :name="convertIconName(childItem.icon)"
-                          class="w-8 h-8 text-primary"
-                        />
-                      </div>
-
-                      <div class="flex flex-col">
-                        <p class="font-medium text-white font-display">
-                          {{ childItem.title }}
-                        </p>
-
-                        <p
-                          v-if="childItem.label"
-                          class="mt-1 text-sm text-gray-400 leading-tight"
-                        >
-                          {{ childItem.label }}
-                        </p>
-                      </div>
+                  <!-- === Trigger Button === -->
+                  <PopoverTrigger as-child>
+                    <NuxtLink class="font-heading text-nav p-2 cursor-pointer">
+                      {{ section.title }}
+                      <Icon
+                        name="heroicons:chevron-down"
+                        class="ml-1 w-5 h-5 text-gray-400"
+                      />
                     </NuxtLink>
-                  </div>
-                </PopoverContent>
-              </Popover>
-              <NavigationMenuLink v-else as-child>
-                <NuxtLink
-                  :to="section.page?.permalink || section.url || '#'"
-                  class="menu-link font-heading text-nav p-2"
-                >
-                  {{ section.title }}
-                </NuxtLink>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
+                  </PopoverTrigger>
 
-        <MobileMenu
-          :is-open="menuOpen"
-          v-if="props.navigation"
-          :navigation="props.navigation"
-        />
+                  <!-- === Dropdown Content === -->
+                  <PopoverContent
+                    class="z-50 mt-2 w-screen max-w-md bg-gray-800 shadow-lg rounded-2xl border border-gray-700 p-4 animate-in fade-in slide-in-from-top-2"
+                    align="start"
+                  >
+                    <div class="grid gap-2">
+                      <NuxtLink
+                        v-for="childItem in section.children"
+                        :key="childItem.id"
+                        :to="getNavItemUrl(childItem)"
+                        @click="close()"
+                        class="flex items-start gap-4 p-4 rounded-xl transition duration-150 hover:bg-gray-900 group"
+                      >
+                        <div
+                          class="flex items-center justify-center flex-none w-11 h-11 p-2 border border-primary rounded-lg"
+                        >
+                          <Icon
+                            v-if="childItem.icon"
+                            :name="convertIconName(childItem.icon)"
+                            class="w-8 h-8 text-primary"
+                          />
+                        </div>
 
-        <!-- Mobile Menu -->
+                        <div class="flex flex-col">
+                          <p class="font-medium text-white font-display">
+                            {{ childItem.title }}
+                          </p>
 
-        <Button
-          @click="menuOpen = !menuOpen"
-          variant="link"
-          size="icon"
-          aria-label="Open menu"
-          class="md:hidden text-black dark:text-white dark:hover:text-accent cursor-pointer"
-        >
-          <Icon name="heroicons:bars-3" class="w-6 h-6" />
-        </Button>
+                          <p
+                            v-if="childItem.label"
+                            class="mt-1 text-sm text-gray-400 leading-tight"
+                          >
+                            {{ childItem.label }}
+                          </p>
+                        </div>
+                      </NuxtLink>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
 
-        <ThemeToggle class="cursor-pointer" />
+          <MobileMenu
+            :is-open="menuOpen"
+            v-if="props.navigation"
+            :navigation="props.navigation"
+          />
 
-        <!--         <Button @click="navigateTo('/dashboard')" class="" variant="ghost">
+          <!-- Mobile Menu -->
+
+          <Button
+            @click="menuOpen = !menuOpen"
+            variant="link"
+            size="icon"
+            aria-label="Open menu"
+            class="md:hidden text-black dark:text-white dark:hover:text-accent cursor-pointer"
+          >
+            <Icon name="heroicons:bars-3" class="w-6 h-6" />
+          </Button>
+          <SearchModel />
+
+          <!--         <Button @click="navigateTo('/dashboard')" class="" variant="ghost">
           #
         </Button> -->
-      </nav>
-    </Container>
+        </nav>
+      </Container>
 
-    <!--TODO: Add a background color to the navigation bar when the menu is open-->
-    <div
-      :class="
-        cn(
-          ' -z-10 absolute top-0 left-0 w-full h-full bg-white opacity-100 dark:opacity-100 dark:bg-black',
-          'bg-transparent dark:bg-transparent'
-        )
-      "
-    >
-      <div class="bg-black opacity-80 w-full h-full"></div>
-    </div>
-  </header>
+      <!--TODO: Add a background color to the navigation bar when the menu is open-->
+      <div
+        :class="
+          cn(
+            ' -z-10 absolute top-0 left-0 w-full h-full bg-white opacity-100 dark:opacity-100 dark:bg-black',
+            'bg-transparent dark:bg-transparent'
+          )
+        "
+      >
+        <div class="bg-black opacity-90 w-full h-full"></div>
+      </div>
+    </header>
+  </div>
 </template>
 
 <style scoped>

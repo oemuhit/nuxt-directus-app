@@ -3,7 +3,7 @@
     fullWidth
     class="relative background-blue"
     :data-directus="
-			setAttr({ collection: 'block_faqs', item: data?.id as string, /* fields: 'title', */ mode: 'drawer' })
+			setAttr({ collection: 'block_faqs', item: data?.id as string, /* fields: 'title', */ mode: 'modal' })
 		"
   >
     <!-- 	max-w-3xl
