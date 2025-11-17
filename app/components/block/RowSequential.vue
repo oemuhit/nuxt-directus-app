@@ -205,7 +205,7 @@ onMounted(() => {
             :variant="data.button?.variant ?? 'outline'"
             :target="data.button?.url ? '_blank' : '_self'"
             :size="data.button?.size ?? 'default'"
-            :class="data?.template?.button?.class"
+            :class="data?.template?.button"
           >
             <span v-if="data.button?.label">{{ data.button?.label }}</span>
             <Icon name="material-symbols:arrow-forward-rounded" />

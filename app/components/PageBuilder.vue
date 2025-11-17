@@ -20,6 +20,7 @@ const validBlocks = computed(() =>
     v-for="block in validBlocks"
     :key="block.id"
     :data-background="block.background"
+    :class="block.background === 'dark' ? 'dark' : ''"
   >
     <!--     <Container> -->
     <!--  -->
