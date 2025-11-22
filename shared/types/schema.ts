@@ -103,6 +103,9 @@ export interface BlockGallery {
   user_updated?: DirectusUser | string | null;
   /** @description Images to include in the image gallery. */
   items?: DirectusFile[] | string[] | null;
+  full_width: boolean | null;
+  template: string | null;
+  clickable: boolean | null;
 }
 
 export interface BlockGalleryItem {
@@ -151,8 +154,24 @@ export interface BlockVerticalMenuItem {
   title: string | null;
   headline: string | null;
 
-  btn: BlockButton | null;
+  link: string | NavigationItem | null;
+
   vertical_menu: number | BlockVerticalMenu | null;
+}
+
+export interface BlockCardMenu {
+  id: number;
+  items: number[] | BlockCardMenuItem[];
+}
+
+export interface BlockCardMenuItem {
+  id: number;
+  image: string | File | null;
+  title: string | null;
+  headline: string | null;
+
+  link: string | NavigationItem | null;
+  card_menu: number | BlockCardMenu | null;
 }
 
 export interface BlockFaq {
@@ -531,6 +550,7 @@ export interface Page {
   user_updated?: DirectusUser | string | null;
   /** @description Create and arrange different content blocks (like text, images, or videos) to build your page. */
   blocks?: PageBlock[] | string[];
+  template?: string | null;
 }
 
 export interface Post {
@@ -1054,6 +1074,8 @@ export interface Schema {
   block_hero: BlockHero[];
   block_vertical_menu: BlockVerticalMenu[];
   block_vertical_menu_items: BlockVerticalMenuItem[];
+  block_card_menu: BlockCardMenu[];
+  block_card_menu_items: BlockCardMenuItem[];
   block_posts: BlockPost[];
   block_pricing: BlockPricing[];
   block_pricing_cards: BlockPricingCard[];

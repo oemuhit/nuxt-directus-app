@@ -11,6 +11,8 @@
 </template>
 
 <script setup lang="ts">
+import { CardContainer, CardBody, CardItem } from "@/components/ui/card-3d";
+
 useHead({
   meta: [
     { charset: "utf-8" },

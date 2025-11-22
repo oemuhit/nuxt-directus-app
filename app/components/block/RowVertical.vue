@@ -65,11 +65,11 @@ onUnmounted(() => {
       return undefined;
   }
 } */
-/* import { breakpointsTailwind, useBreakpoints } from '@vueuse/core';
+import { breakpointsTailwind, useBreakpoints } from "@vueuse/core";
 
- const isMobile = computed(() => {
-	return useBreakpoints(breakpointsTailwind).smaller('md');
-}); */
+const isMobile = computed(() => {
+  return useBreakpoints(breakpointsTailwind).smaller("md");
+});
 
 const config = useRuntimeConfig();
 const directusUrl = config.public.directus.rest.baseUrl;

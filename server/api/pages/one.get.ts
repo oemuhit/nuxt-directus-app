@@ -52,6 +52,7 @@ export default defineEventHandler(async (event) => {
         fields: [
           "title",
           "id",
+          "template",
           {
             seo: ["title", "meta_description", "og_image"],
             blocks: [
@@ -138,8 +139,25 @@ export default defineEventHandler(async (event) => {
                         "image",
                         "title",
                         "headline",
+
                         {
-                          btn: ["*", { page: ["permalink"], post: ["slug"] }],
+                          link: ["*", { page: ["permalink"], post: ["slug"] }],
+                        },
+                      ],
+                    },
+                  ],
+
+                  block_card_menu: [
+                    "id",
+
+                    {
+                      items: [
+                        "id",
+                        "image",
+                        "title",
+                        "headline",
+                        {
+                          link: ["*", { page: ["permalink"], post: ["slug"] }],
                         },
                       ],
                     },
@@ -153,6 +171,8 @@ export default defineEventHandler(async (event) => {
                   ],
                   block_gallery: [
                     "id",
+                    "template",
+                    "full_width",
                     "tagline",
                     "headline",
                     { items: ["id", "directus_file", "sort"] },

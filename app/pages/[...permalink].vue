@@ -68,6 +68,10 @@ onMounted(() => {
   applyVisualEditingButton();
   applyVisualEditing();
 });
+
+const template = useState("template");
+
+template.value = { ...((page.value?.template as unknown as Object) || {}) };
 </script>
 
 <template>

@@ -11,12 +11,13 @@ export default defineNuxtConfig({
     },
   }, */
 
-  devServer: {
+  // SSL için devServer
+  /*   devServer: {
     https: {
       key: "./server.key",
       cert: "./server.crt",
     },
-  },
+  }, */
 
   nitro: {
     experimental: {

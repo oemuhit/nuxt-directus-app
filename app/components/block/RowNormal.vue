@@ -146,47 +146,48 @@ const videoUrl = computed(() => {
           'md:w-1/2 items-start  mt-12 md:mt-0': data.layout !== 'image_center',
         }"
       >
-        <Tagline
-          :tagline="data.tagline"
+        <TypographyTitle
+          v-if="data.tagline"
           :class="data?.template?.tagline"
           :data-directus="
             setAttr({
-              collection: 'block_hero',
+              collection: 'block_row_normal',
               item: data.id,
               fields: 'tagline',
               mode: 'popover',
             })
           "
-        />
+          >{{ data.tagline }}</TypographyTitle
+        >
 
-        <Headline
-          class="lg:text-headline-anfen"
+        <TypographyHeadline
+          v-if="data.headline"
+          class="text-headline"
+          :content="data.headline"
           :class="data?.template?.headline"
-          :headline="data.headline"
           :data-directus="
             setAttr({
-              collection: 'block_hero',
+              collection: 'block_row_normal',
               item: data.id,
               fields: 'headline',
               mode: 'popover',
             })
           "
-        />
+        ></TypographyHeadline>
 
-        <Text
+        <TypographyProse
           v-if="data.description"
           :content="data.description"
           :class="data?.template?.content"
           :data-directus="
             setAttr({
-              collection: 'block_hero',
+              collection: 'block_row_normal',
               item: data.id,
               fields: 'description',
               mode: 'popover',
             })
           "
         />
-
         <div
           v-if="data.button_group?.buttons?.length"
           class="mt-6"
@@ -230,26 +231,30 @@ const videoUrl = computed(() => {
             :title="data.tagline || data.headline || 'Video'"
           />
         </div>
-        <DirectusImage
+        <div
           v-if="data.media_type === 'image' && data.image"
-          :uuid="data.image"
-          :alt="data.tagline || data.headline || 'Hero Image'"
-          :fill="true"
-          :sizes="
-            data.layout === 'image_center'
-              ? '100vw'
-              : '(max-width: 768px) 100vw, 50vw'
-          "
-          class="object-contain"
-          :data-directus="
-            setAttr({
-              collection: 'block_hero',
-              item: data.id,
-              fields: ['image', 'layout'],
-              mode: 'modal',
-            })
-          "
-        />
+          class="h-full flex items-center justify-center"
+        >
+          <DirectusImage
+            :uuid="data.image"
+            :alt="data.tagline || data.headline || 'Hero Image'"
+            :fill="true"
+            :sizes="
+              data.layout === 'image_center'
+                ? '100vw'
+                : '(max-width: 768px) 100vw, 50vw'
+            "
+            class="object-contain"
+            :data-directus="
+              setAttr({
+                collection: 'block_row_normal',
+                item: data.id,
+                fields: ['image', 'layout'],
+                mode: 'modal',
+              })
+            "
+          />
+        </div>
       </motion.div>
     </section>
   </BlockContainer>

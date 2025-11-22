@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import { cn } from "@/lib/utils";
+import { useScroll } from "@vueuse/core";
+import { useRoute } from "vue-router";
+const route = useRoute();
+const { y } = useScroll(window);
+
 interface NavigationItem {
   id: string;
   title: string;
@@ -47,38 +52,41 @@ const darkLogoUrl = computed(() =>
 const handleLinkClick = () => {
   menuOpen.value = false;
 };
+
+const template = useState("template", () => ({ lorem: "ipsum" }));
+/* template.value?.navigation_bar +
+ */
+const navigationBarClasses = computed(() => {
+  return route.path === "/"
+    ? " bg-slate-950 md:bg-transparent sticky md:fixed"
+    : "fixed md:fixed ";
+});
 </script>
 
 <template>
-  <!-- hero 
- 
-fixed sticky
-
-bg-background  
-
--->
-  <div class="dark sticky md:fixed top-0 z-50 w-full">
+  <div class="dark top-0 z-50 w-full" :class="navigationBarClasses">
     <header ref="navigationRef">
       <Container
-        class="flex items-center justify-between p-4 text-white dark:text-white"
+        class="flex items-center justify-between px-4 text-white dark:text-white"
       >
-        <NuxtLink to="/" class="flex-shrink-0">
+        <NuxtLink to="/" class="flex-shrink-0 py-2">
           <!--      <Logo /> -->
 
           <img
             :src="lightLogoUrl"
             alt="Logo"
-            class="w-[120px] h-auto dark:hidden"
+            class="w-[60px] h-auto dark:hidden"
             width="150"
-            height="100"
+            height="60"
           />
+
           <img
             v-if="darkLogoUrl"
             :src="darkLogoUrl"
             alt="Logo (Dark Mode)"
-            class="w-[120px] h-auto hidden dark:block"
+            class="w-[60px] h-auto hidden dark:block"
             width="150"
-            height="100"
+            height="60"
           />
         </NuxtLink>
 
@@ -223,7 +231,15 @@ bg-background
           )
         "
       >
-        <div class="bg-black opacity-90 w-full h-full"></div>
+        <div
+          :class="[
+            'w-full h-full duration-500 transition-all',
+            {
+              'bg-black opacity-60': y > 0.95,
+              'opacity-0': !(y > 0.95),
+            },
+          ]"
+        ></div>
       </div>
     </header>
   </div>

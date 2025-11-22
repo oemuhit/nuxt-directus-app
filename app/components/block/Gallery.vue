@@ -90,10 +90,14 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <BlockContainer>
-    <section class="relative">
+  <BlockContainer
+    :class="data?.template?.block"
+    :fullWidth="data?.full_width ?? false"
+    class="flex flex-col justify-center align-center"
+  >
+    <section class="relative w-full mx-auto max-w-6xl px-4 md:px-0">
       <Tagline
-        v-if="data.tagline"
+        :class="data?.template?.tagline"
         :tagline="data.tagline"
         :data-directus="
           setAttr({
@@ -104,7 +108,9 @@ onUnmounted(() => {
           })
         "
       />
+
       <Headline
+        :class="data?.template?.headline"
         v-if="data.headline"
         :headline="data.headline"
         :data-directus="
@@ -119,7 +125,7 @@ onUnmounted(() => {
 
       <div
         v-if="sortedItems.length"
-        class="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
+        class="bg-white mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
         :data-directus="
           setAttr({
             collection: 'block_gallery',
@@ -128,23 +134,35 @@ onUnmounted(() => {
             mode: 'modal',
           })
         "
+        :class="data?.template?.items"
       >
         <div
           v-for="(item, index) in sortedItems"
           :key="item.id"
           class="relative overflow-hidden rounded-lg group hover:shadow-lg transition-all duration-300 cursor-pointer h-[300px]"
-          @click="handleOpenLightbox(index)"
+          @click="data?.template?.clickable ? handleOpenLightbox(index) : null"
+          :class="data?.template?.item"
         >
-          <DirectusImage
+          <!--      <DirectusImage
             :uuid="item.directus_file"
             :alt="`Gallery item ${item.id}`"
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            class="w-full h-full object-cover rounded-lg"
+            class="w-full h-full object-contain rounded-lg"
+          /> -->
+
+          <NuxtImg
+            class="w-full h-full object-contain rounded-lg"
+            :src="safeRelationId(item.directus_file) as string"
+            :alt="item.id || 'Gallery item image'"
+            :modifiers="{
+              key: '240w',
+            }"
           />
 
           <div
             class="absolute inset-0 bg-white/60 opacity-0 group-hover:opacity-100 flex justify-center items-center transition-opacity duration-300"
+            :class="data?.template?.item_hover"
           >
             <ZoomIn class="w-10 h-10 text-gray-800" />
           </div>
@@ -164,20 +182,20 @@ onUnmounted(() => {
           <div
             class="relative w-[90vw] h-[90vh] flex items-center bg-red-500 justify-center"
           >
-            <!--         <DirectusImage
-            v-if="currentItem"
-            :uuid="currentItem.directus_file"
-            :alt="`Gallery item ${currentItem.id}`"
-            class="w-full h-full object-contain"
-          /> -->
+            <DirectusImage
+              v-if="currentItem"
+              :uuid="currentItem.directus_file"
+              :alt="`Gallery item ${currentItem.id}`"
+              class="w-full h-full object-contain"
+            />
             <!--           {{ safeRelationId(currentItem?.directus_file) }}
  -->
-            <NuxtImg
+            <!--       <NuxtImg
               v-if="currentItem"
               :alt="safeRelation(currentItem.directus_file)?.description ?? ''"
               :src="safeRelationId(currentItem.directus_file) ?? ''"
               class="object-cover object-center w-full h-full bg-red-500 dark:brightness-90"
-            />
+            /> -->
           </div>
 
           <div

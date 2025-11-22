@@ -18,6 +18,7 @@ const props = defineProps<BaseBlockProps>();
 const blockRef = ref<HTMLElement | null>(null);
 
 const components: Record<string, any> = {
+  block_card_menu: resolveComponent("CardMenu"),
   block_hero: resolveComponent("Hero"),
   block_richtext: resolveComponent("RichText"),
   block_gallery: resolveComponent("Gallery"),

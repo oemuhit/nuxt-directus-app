@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import type {
-  BlockVerticalMenu,
-  BlockVerticalMenuItem,
+  BlockCardMenu,
+  BlockCardMenuItem,
 } from "../../../shared/types/schema";
 import { motion } from "motion-v";
 
 const props = defineProps<{
-  data: BlockVerticalMenu;
+  data: BlockCardMenu;
 }>();
 
 const items = computed(() => {
   if (!unref(props.data?.items)) return [];
-  return unref(props.data)?.items as BlockVerticalMenuItem[];
+  return unref(props.data)?.items as BlockCardMenuItem[];
 });
 let activeIndex = -1;
 
@@ -102,7 +102,7 @@ onBeforeUnmount(() => {
   window.removeEventListener("resize", handleResize);
 });
 
-function handleClick(item: BlockVerticalMenuItem) {
+function handleClick(item: BlockCardMenuItem) {
   if (item.link) {
     navigateTo(getNavItemUrl(item.link as NavigationItem) as string);
   }
@@ -110,64 +110,35 @@ function handleClick(item: BlockVerticalMenuItem) {
 </script>
 
 <template>
-  <main class="min-h-screen flex items-center justify-center">
-    <div class="w-full min-h-screen md:h-[100vh] overflow-hidden shadow-lg">
-      <div
-        id="gallery"
-        class="flex h-full md:h-[100vh] select-none"
-        role="list"
-        aria-label="Interactive menu"
-      >
-        <motion.div
-          :initial="{ scale: 1 }"
-          :whileInView="{
-            scale: 1.05,
-            transition: {
-              duration: 2, // saniye cinsinden süre
-              repeat: Infinity, // sonsuz döngü
-              repeatType: 'mirror', // ileri–geri oynat (nefes efekti)
-              ease: 'easeInOut', // yumuşak geçiş
-            },
-          }"
-          :viewport="{ once: true }"
-          @click="handleClick(item)"
-          v-for="(item, index) in items"
-          :key="index"
-          class="panel relative flex-1 focus:outline-none cursor-pointer"
-          aria-label="Item {{ index + 1 }}"
-          :data-index="index"
-        >
-          <div class="w-full h-full">
-            <NuxtImg
-              v-if="safeRelationId(item.image)"
-              class="w-full h-full md:h-screen object-cover"
-              :src="safeRelationId(item.image) as string"
-              :alt="item.title || 'Menu item image'"
-              :modifiers="{
-                key: '800w',
-              }"
-            />
-          </div>
+  <div class="relative mx-auto py-12 bg-slate-950 w-full">
+    <div class="absolute inset-0 opacity-5 grain-bg dark:opacity-5"></div>
 
-          <div class="dh1 flex flex-col font-heading w-full md:flex">
-            <div class="invisible">#</div>
-
-            <div class="text-center">
-              <!-- 							<span class="text-white hide md:inline">WE</span>
- -->
-              <span class="ml-2 show">{{ item.title }}</span>
-            </div>
-            <div class="hidden md:block text-white hide text-center">
-              {{ item.headline }}
-            </div>
-            <div class="text-white inline text-center md:hidden">
-              {{ item.headline }}
-            </div>
-          </div>
-        </motion.div>
+    <div class="flex flex-row justify-center flex-wrap">
+      <div v-for="item in items" :key="item.id" @click="handleClick(item)">
+        <ClientOnly>
+          <CardContainer>
+            <CardBody
+              class="group/card relative size-auto rounded-sm border border-black/[0.1] bg-gray-50 sm:w-[18rem] dark:border-white/[0.2] dark:bg-black dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1]"
+            >
+              <CardItem :translate-z="100" class="w-full relative">
+                <NuxtImg
+                  v-if="safeRelationId(item.image)"
+                  class="cursor-pointer h-100 md:h-80 lg:h-60 w-full rounded-sm object-cover group-hover/card:shadow-xl"
+                  :src="safeRelationId(item.image) as string"
+                  :alt="item.title || 'Menu item image'"
+                />
+                <div
+                  class="text-white dark:text-white group-hover/card:text-primary group-hover/card:font-black transition-all duration-300 cursor-pointer absolute bottom-0 left-0 right-0 p-4 rounded-b-sm bg-black/50 text-4xl text-center"
+                >
+                  {{ item.headline }}
+                </div>
+              </CardItem>
+            </CardBody>
+          </CardContainer>
+        </ClientOnly>
       </div>
     </div>
-  </main>
+  </div>
 </template>
 
 <style>
@@ -201,6 +172,11 @@ function handleClick(item: BlockVerticalMenuItem) {
 }
 .panel.active .dh1 {
   color: var(--primary);
+}
+
+.panel .dh1 span.hide {
+  /* display: none;*/
+  opacity: 0;
 }
 
 .panel .dh1 div.hide {

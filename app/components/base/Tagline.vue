@@ -14,7 +14,7 @@ withDefaults(defineProps<TaglineProps>(), {
   <component
     :is="as"
     v-if="tagline"
-    :class="`font-heading font-normal  text-primary uppercase text-lg md:text-xl lg:text-tagline`"
+    class="font-heading font-normal text-primary uppercase text-lg md:text-xl lg:text-tagline"
   >
     {{ tagline }}
   </component>

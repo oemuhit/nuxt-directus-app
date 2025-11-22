@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { cn } from "@/lib/utils";
+
 interface PageBuilderProps {
   sections: PageBlock[];
 }
@@ -13,18 +15,22 @@ const validBlocks = computed(() =>
       typeof block.item === "object"
   )
 );
+
+const template = useState("template");
 </script>
 
 <template>
-  <div
-    v-for="block in validBlocks"
-    :key="block.id"
-    :data-background="block.background"
-    :class="block.background === 'dark' ? 'dark' : ''"
-  >
-    <!--     <Container> -->
-    <!--  -->
-    <BaseBlock :block="block" />
-    <!--     </Container> -->
+  <div :class="template?.page_builder">
+    <div
+      v-for="block in validBlocks"
+      :key="block.id"
+      :data-background="block.background"
+      :class="cn(block.background === 'dark' ? 'dark' : '')"
+    >
+      <!--     <Container> -->
+      <!--  -->
+      <BaseBlock :block="block" />
+      <!--     </Container> -->
+    </div>
   </div>
 </template>

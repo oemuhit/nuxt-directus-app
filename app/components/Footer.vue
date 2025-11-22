@@ -46,14 +46,21 @@ const darkLogoUrl = computed(() =>
 </script>
 
 <template>
+  <!--   bg-gray dark:bg-[var(--background-variant-color)]
+ -->
   <footer
     v-if="globals"
     ref="footerRef"
-    class="bg-gray dark:bg-[var(--background-variant-color)] py-16"
+    class="dark relative py-16 bg-slate-950 dark:bg-slate-950"
   >
+    <div class="absolute inset-0 opacity-10 grain-bg dark:opacity-5"></div>
+
     <Container class="text-foreground dark:text-white">
-      <div class="relative h-[200px] w-full overflow-hidden">
-        <VideoText src="https://cdn.magicui.design/ocean-small.webm">
+      <div class="relative h-[30vw] w-full overflow-hidden">
+        <VideoText
+          font-size="30vw"
+          src="https://cdn.magicui.design/ocean-small.webm"
+        >
           anfen
         </VideoText>
       </div>
@@ -105,7 +112,7 @@ const darkLogoUrl = computed(() =>
           </div>
         </div>
 
-        <div class="flex flex-col items-start md:items-end flex-1">
+        <div class="z-100 flex flex-col items-start md:items-end flex-1">
           <nav
             v-if="props.navigation.items?.length"
             class="w-full md:w-auto text-left"

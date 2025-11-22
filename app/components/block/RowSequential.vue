@@ -68,11 +68,11 @@ function getUrl(button: BlockButton): string | undefined {
       return undefined;
   }
 }
-/* import { breakpointsTailwind, useBreakpoints } from '@vueuse/core';
+import { breakpointsTailwind, useBreakpoints } from "@vueuse/core";
 
- const isMobile = computed(() => {
-	return useBreakpoints(breakpointsTailwind).smaller('md');
-}); */
+const isMobile = computed(() => {
+  return useBreakpoints(breakpointsTailwind).smaller("md");
+});
 
 const config = useRuntimeConfig();
 const directusUrl = config.public.directus.rest.baseUrl;
@@ -88,15 +88,16 @@ onMounted(() => {
     class="flex flex-col justify-center align-center"
     :class="data?.template?.block"
   >
+    <!--   backgroundSize: isMobile ? 'cover' : '110% auto',
+ -->
     <div
-      class="inset-0 absolute"
+      class="inset-0 absolute bg-no-repeat md:bg-size-[110%] auto bg-cover"
       :style="{
         backgroundColor:
           data.bg_type === 'color'
             ? data?.bg_color ?? 'transparent'
             : 'transparent',
 
-        backgroundSize: '110% auto',
         backgroundPosition: 'center',
         transition: 'background-position 0.1s ease-out',
 
@@ -190,7 +191,9 @@ onMounted(() => {
           <TypographyProse
             v-if="data?.content"
             :content="data?.content"
-            :class="cn('mt-4 px-4 md:px-0', data?.template?.content)"
+            :class="
+              cn('mt-4 px-4 md:px-0 font-semibold ', data?.template?.content)
+            "
         /></motion.div>
 
         <div
