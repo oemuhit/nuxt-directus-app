@@ -28,18 +28,22 @@ function handleMouse(e: MouseEvent) {
   const normY = e.clientY / window.innerHeight - 0.5;
   const tx = -normX * strength;
   const ty = -normY * strength;
-  //bg.value.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
+
+  // bg.value.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
   bg.value.style.backgroundPosition = `calc(50% + ${tx}px) calc(50% + ${ty}px)`;
 }
 
 function handleOrientation(e: DeviceOrientationEvent) {
   if (!isMouseAware.value || !bg.value) return;
 
-  const tiltX = (e.gamma || 0) / 45; // -1..1
-  const tiltY = (e.beta || 0) / 45;
+  const tiltX = (e.gamma || 0) / 50; // -1..1
+  const tiltY = (e.beta || 0) / 50;
+  // const ty = tiltY * strength;
+
   const tx = tiltX * strength;
-  const ty = tiltY * strength;
-  //bg.value.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
+  const ty = 0;
+
+  // bg.value.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
   bg.value.style.backgroundPosition = `calc(50% + ${tx}px) calc(50% + ${ty}px)`;
 }
 
@@ -120,11 +124,7 @@ onMounted(() => {
 			"
     ></div>
     <div
-      v-if="
-        !(isMouseAware || data?.template?.bgShadow) &&
-        data?.bg_type === 'color' &&
-        data?.bg_color
-      "
+      v-if="data?.bg_type === 'color' && data?.bg_color"
       class="absolute inset-0 opacity-10 grain-bg dark:opacity-5"
     ></div>
 

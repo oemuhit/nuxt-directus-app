@@ -107,6 +107,19 @@ function handleClick(item: BlockVerticalMenuItem) {
     navigateTo(getNavItemUrl(item.link as NavigationItem) as string);
   }
 }
+
+function getInitialX(index: number) {
+  switch (index) {
+    case 0:
+      return 10;
+    case 1:
+      return -10;
+    case 2:
+      return 10;
+    case 3:
+      return -10;
+  }
+}
 </script>
 
 <template>
@@ -114,14 +127,15 @@ function handleClick(item: BlockVerticalMenuItem) {
     <div class="w-full min-h-screen md:h-[100vh] overflow-hidden shadow-lg">
       <div
         id="gallery"
-        class="flex h-full md:h-[100vh] select-none"
+        class="flex h-full md:h-[100vh] select-none bg-black"
         role="list"
         aria-label="Interactive menu"
       >
         <motion.div
           :initial="{ scale: 1 }"
           :whileInView="{
-            scale: 1.05,
+            scale: 1,
+
             transition: {
               duration: 2, // saniye cinsinden süre
               repeat: Infinity, // sonsuz döngü
@@ -133,11 +147,24 @@ function handleClick(item: BlockVerticalMenuItem) {
           @click="handleClick(item)"
           v-for="(item, index) in items"
           :key="index"
-          class="panel relative flex-1 focus:outline-none cursor-pointer"
+          class="panel relative flex-1 focus:outline-none cursor-pointer filter grayscale hover:filter-none"
           aria-label="Item {{ index + 1 }}"
           :data-index="index"
         >
-          <div class="w-full h-full">
+          <motion.div
+            :initial="{ scale: 1.02 }"
+            :whileInView="{
+              scale: 1.01,
+
+              transition: {
+                duration: 2, // saniye cinsinden süre
+                repeat: Infinity, // sonsuz döngü
+                repeatType: 'mirror', // ileri–geri oynat (nefes efekti)
+                ease: 'easeInOut', // yumuşak geçiş
+              },
+            }"
+            class="w-full h-full filter"
+          >
             <NuxtImg
               v-if="safeRelationId(item.image)"
               class="w-full h-full md:h-screen object-cover"
@@ -147,16 +174,19 @@ function handleClick(item: BlockVerticalMenuItem) {
                 key: '800w',
               }"
             />
-          </div>
+          </motion.div>
 
-          <div class="dh1 flex flex-col font-heading w-full md:flex">
+          <div class="dh1 flex flex-col font-heading w-screen md:flex">
             <div class="invisible">#</div>
 
             <div class="text-center">
               <!-- 							<span class="text-white hide md:inline">WE</span>
  -->
-              <span class="ml-2 show">{{ item.title }}</span>
+              <span class="ml-2 show font-black">{{ item.title }}</span>
             </div>
+
+            <div v-if="!item.headline" class="invisible">#</div>
+
             <div class="hidden md:block text-white hide text-center">
               {{ item.headline }}
             </div>
@@ -174,6 +204,7 @@ function handleClick(item: BlockVerticalMenuItem) {
 .panel {
   background-size: cover;
   background-position: center;
+
   min-width: 0;
   position: relative;
   transition: flex 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), filter 1s ease;
@@ -181,21 +212,23 @@ function handleClick(item: BlockVerticalMenuItem) {
 .panel.dimmed::after {
   content: "";
   position: absolute;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.6);
+  inset: -5px;
+  /*   background-color: rgba(0, 0, 0, 0.8);
+ */
 }
 
 .panel::after {
   content: "";
   position: absolute;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.6);
+  inset: -5px;
+  /*   background-color: rgba(0, 0, 0, 0.8);
+ */
 }
 
 .panel.active::after {
   content: "";
   position: absolute;
-  inset: 0;
+  inset: -5px;
   background-color: rgba(0, 0, 0, 0);
   transition: background-color 3s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
@@ -238,14 +271,28 @@ function handleClick(item: BlockVerticalMenuItem) {
 /* Desktop styling */
 @media (min-width: 768px) {
   .panel .dh1 {
-    font-size: 4rem !important;
+    font-size: 4.5rem !important;
+  }
+
+  .panel.dimmed::after {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+
+  .panel::after {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    background-color: rgba(0, 0, 0, 0.8);
   }
 }
 
 /* Mobile styling */
 @media (max-width: 767px) {
   .panel .dh1 {
-    font-size: 2rem !important;
+    font-size: 2.5rem !important;
     transform: translate(-50%, -50%) rotate(0deg);
 
     bottom: 1rem;

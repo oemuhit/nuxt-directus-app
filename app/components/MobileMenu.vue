@@ -37,6 +37,10 @@ watch(
     }
   }
 );
+
+const lastItem = computed(() => {
+  return props.navigation.items.at(-1);
+});
 </script>
 <template>
   <div class="md:hidden">
@@ -54,7 +58,7 @@ watch(
       >
         <div>
           <NuxtLink href="/">
-            <Logo class="h-6 dark:text-white" />
+            <Logo class="dark:text-white" />
           </NuxtLink>
           <Text
             v-if="globals?.tagline"
@@ -71,15 +75,18 @@ watch(
           :key="item.id"
           :item="item"
           @close="toggle"
+          class="text-center border-b border-b-gray-300 py-2 justify-center items-center rounded-none font-heading"
         />
 
         <Button
-          @click="navigateTo('/privacy-policy')"
+          @click="navigateTo(lastItem?.page?.permalink as string)"
           variant="default"
           size="lg"
-          class="font-display bg-primary text-white dark:bg-white dark:text-black cursor-pointer"
-          >Let's Talk</Button
-        >
+          class="py-8 font-heading text-3xl bg-primary text-white dark:bg-orange-800 border-2 border-gray-300 cursor-pointer rounded-xs"
+          >Bize Ulaşın
+
+          <Icon name="heroicons:chevron-right" class="w-6 h-6" />
+        </Button>
       </div>
     </motion.div>
     <!-- Button -->

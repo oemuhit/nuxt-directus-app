@@ -81,6 +81,7 @@ const videoUrl = computed(() => {
     :class="data?.template?.block"
   >
     <!--     {{ data?.template?.block }} -->
+
     <div
       class="inset-0 absolute"
       :style="{
@@ -111,15 +112,14 @@ const videoUrl = computed(() => {
 				}:`null`
 			"
     ></div>
+
     <div
-      v-if="
-        !(isMouseAware || data?.template?.bgShadow) &&
-        data?.bg_type === 'color' &&
-        data?.bg_color
-      "
-      class="absolute inset-0 opacity-10 grain-bg dark:opacity-5"
+      v-if="data?.bg_type === 'color' && data?.bg_color"
+      class="absolute inset-0 opacity-5 grain-bg dark:opacity-10"
     ></div>
 
+    <!--     <div class="absolute inset-0 opacity-50 grain-bg dark:opacity-50"></div>
+ -->
     <div
       class="absolute top-0 left-0 w-full h-full"
       :class="data?.template?.bgShadow && 'bg-black/50 backdrop-saturate-200'"
@@ -128,8 +128,9 @@ const videoUrl = computed(() => {
       class="relative w-full mx-auto flex flex-col gap-6 md:gap-12 max-w-6xl px-4 md:px-0"
       :class="{
         'items-center text-center': data.layout === 'image_center',
-        'md:flex-row-reverse items-center': data.layout === 'image_left',
-        'md:flex-row items-center':
+        'flex-col-reverse md:flex-row-reverse items-center':
+          data.layout === 'image_left',
+        'flex-col-reverse md:flex-row items-center':
           data.layout !== 'image_center' && data.layout !== 'image_left',
       }"
     >
@@ -159,7 +160,6 @@ const videoUrl = computed(() => {
           "
           >{{ data.tagline }}</TypographyTitle
         >
-
         <TypographyHeadline
           v-if="data.headline"
           class="text-headline"
@@ -215,10 +215,10 @@ const videoUrl = computed(() => {
           transition: { duration: 0.2 },
         }"
         v-if="data.image || videoUrl"
-        class="relative w-full"
+        class="relative w-full bg-red-500"
         :class="{
           'md:w-3/4 xl:w-2/3 h-[400px]': data.layout === 'image_center',
-          'md:w-1/2 h-[562px]': data.layout !== 'image_center',
+          'md:w-1/2 max-h-[562px]': data.layout !== 'image_center',
         }"
       >
         <div
@@ -228,14 +228,31 @@ const videoUrl = computed(() => {
           <VVideo
             class="my-auto border dark:border-gray-700 rounded-card"
             :url="videoUrl"
-            :title="data.tagline || data.headline || 'Video'"
           />
         </div>
         <div
           v-if="data.media_type === 'image' && data.image"
           class="h-full flex items-center justify-center"
         >
-          <DirectusImage
+          <NuxtImg
+            v-if="safeRelationId(data.image)"
+            class="border-1 border-gray-300 rounded-xs w-full object-contain outline outline-2 outline-gray-300 outline-offset-[-12px]"
+            :src="safeRelationId(data.image) as string"
+            :alt="data.tagline || data.headline || 'Hero Image'"
+            :modifiers="{
+              key: '512w',
+            }"
+            :data-directus="
+              setAttr({
+                collection: 'block_row_normal',
+                item: data.id,
+                fields: ['image', 'layout'],
+                mode: 'modal',
+              })
+            "
+          />
+
+          <!--    <DirectusImage
             :uuid="data.image"
             :alt="data.tagline || data.headline || 'Hero Image'"
             :fill="true"
@@ -253,7 +270,7 @@ const videoUrl = computed(() => {
                 mode: 'modal',
               })
             "
-          />
+          /> -->
         </div>
       </motion.div>
     </section>

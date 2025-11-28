@@ -78,6 +78,7 @@ onMounted(() => {
       :navigation="siteData.footerNavigation"
       :globals="siteData.globals"
     />
+
     <ScrollTop />
   </div>
 </template>

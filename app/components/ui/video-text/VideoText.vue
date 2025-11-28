@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="relative size-full"
-    :class="props.class"
-  >
+  <div class="relative size-full" :class="props.class">
     <div
       class="absolute inset-0 flex items-center justify-center"
       :style="{
@@ -66,13 +63,13 @@ const content = computed(
   () =>
     defaultSlot?.()
       .map((vnode) => vnode.children)
-      .join("") ?? "",
+      .join("") ?? ""
 );
 
 const svgMask = ref("");
 
 const dataUrlMask = computed(
-  () => `url("data:image/svg+xml,${encodeURIComponent(svgMask.value)}")`,
+  () => `url("data:image/svg+xml,${encodeURIComponent(svgMask.value)}")`
 );
 
 function updateSvgMask() {
@@ -91,7 +88,7 @@ watch(
     props.dominantBaseline,
     props.fontFamily,
   ],
-  updateSvgMask,
+  updateSvgMask
 );
 
 onMounted(() => {

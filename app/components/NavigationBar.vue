@@ -67,7 +67,7 @@ const navigationBarClasses = computed(() => {
   <div class="dark top-0 z-50 w-full" :class="navigationBarClasses">
     <header ref="navigationRef">
       <Container
-        class="flex items-center justify-between px-4 text-white dark:text-white"
+        class="flex items-center justify-between px-4 text-white dark:text-white max-w-none"
       >
         <NuxtLink to="/" class="flex-shrink-0 py-2">
           <!--      <Logo /> -->
@@ -75,7 +75,7 @@ const navigationBarClasses = computed(() => {
           <img
             :src="lightLogoUrl"
             alt="Logo"
-            class="w-[60px] h-auto dark:hidden"
+            class="w-[100px] h-auto dark:hidden"
             width="150"
             height="60"
           />
@@ -84,7 +84,7 @@ const navigationBarClasses = computed(() => {
             v-if="darkLogoUrl"
             :src="darkLogoUrl"
             alt="Logo (Dark Mode)"
-            class="w-[60px] h-auto hidden dark:block"
+            class="w-[100px] h-auto hidden dark:block"
             width="150"
             height="60"
           />
@@ -110,7 +110,7 @@ const navigationBarClasses = computed(() => {
                 <template v-if="section.children?.length">
                   <NavigationMenuTrigger
                     @click="navigateTo(getNavItemUrl(section))"
-                    class="focus:outline-none font-heading !text-nav hover:bg-background hover:text-accent cursor-pointer"
+                    class="focus:outline-none font-heading-menu !text-nav hover:bg-background hover:text-accent cursor-pointer"
                   >
                     {{ section.title }}
                   </NavigationMenuTrigger>
@@ -122,7 +122,7 @@ const navigationBarClasses = computed(() => {
                         <NavigationMenuLink as-child>
                           <NuxtLink
                             :to="getNavItemUrl(child)"
-                            class="font-heading text-nav"
+                            class="font-heading-menu text-nav"
                           >
                             {{ child.title }}
                           </NuxtLink>
@@ -134,7 +134,7 @@ const navigationBarClasses = computed(() => {
                 <NavigationMenuLink v-else as-child>
                   <NuxtLink
                     :to="section.page?.permalink || section.url || '#'"
-                    class="font-heading text-nav p-2 focus:outline-none font-heading !text-nav hover:bg-background hover:text-accent"
+                    class="text-nav p-2 focus:outline-none font-heading-menu !text-nav hover:bg-background hover:text-accent"
                   >
                     {{ section.title }}
                   </NuxtLink>
@@ -145,7 +145,9 @@ const navigationBarClasses = computed(() => {
                 >
                   <!-- === Trigger Button === -->
                   <PopoverTrigger as-child>
-                    <NuxtLink class="font-heading text-nav p-2 cursor-pointer">
+                    <NuxtLink
+                      class="font-heading-menu text-nav p-2 cursor-pointer"
+                    >
                       {{ section.title }}
                       <Icon
                         name="heroicons:chevron-down"

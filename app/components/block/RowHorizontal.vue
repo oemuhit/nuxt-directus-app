@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type {
-  BlockRowVertical,
+  BlockRowHorizontal,
   BlockButton,
   Page,
   Post,
@@ -9,7 +9,7 @@ import { setAttr, apply } from "@directus/visual-editing";
 import { motion } from "motion-v";
 
 const props = defineProps<{
-  data: BlockRowVertical;
+  data: BlockRowHorizontal;
 }>();
 
 import { ref, onMounted, onUnmounted, computed } from "vue";
@@ -85,6 +85,8 @@ onMounted(() => {
     class="flex flex-col justify-center align-center"
     :class="data?.template?.block"
   >
+    <div class="anchor-target" :id="data?.template?.id">.....</div>
+
     <div
       class="inset-0 absolute"
       :style="{
@@ -129,17 +131,18 @@ onMounted(() => {
     <div
       :data-directus="
         setAttr({
-          collection: 'block_row_vertical',
+          collection: 'block_row_horizontal',
           item: data?.id,
           /* fields: 'title', */ mode: 'drawer',
         })
       "
-      class="relative z-10 flex flex-col md:flex-row justify-center min-h-screen max-w-7xl items-center mx-auto"
+      class="relative z-10 flex flex-col md:flex-row justify-center max-w-7xl mx-auto"
+      :class="
+        data?.header_layout !== 'header_left' ? 'md:flex-row-reverse' : ''
+      "
     >
-      <div
-        class="box1-wrapper my-4 md:my-0 md:justify-center lg:justify-end md:max-w-xs lg:max-w-md"
-      >
-        <div class="px-4 md:py-4 md:px-4 box1">
+      <div class="my-4 md:my-0 md:justify-center lg:justify-end">
+        <div class="px-4 md:py-4 md:px-4 sticky top-[120px]">
           <BoxReveal color="--primary">
             <TypographyTitle
               class="text-5xl md:text-[100px] font-black! font-heading"
@@ -201,7 +204,7 @@ onMounted(() => {
   position: relative;
   overflow: hidden;
 }
-  @media (min-width: 768px) {
+@media (min-width: 768px) {
   .box1-wrapper {
     display: flex;
     align-items: center;

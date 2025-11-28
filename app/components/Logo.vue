@@ -2,7 +2,7 @@
 const appConfig = useAppConfig();
 
 const logo = computed(() => {
-  return appConfig.globals?.logo_on_dark_bg;
+  return appConfig.globals?.logo_on_dark_bg || appConfig.globals?.logo;
 });
 
 const props = defineProps({
@@ -14,8 +14,7 @@ const props = defineProps({
 </script>
 
 <template>
-  {{ logo }}
-  <NuxtImg v-if="logo" :src="logo" alt="" />
+  <NuxtImg v-if="logo" :src="logo" alt="" class="w-24 h-24" />
   <template v-else>
     <svg
       width="117"

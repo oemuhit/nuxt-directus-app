@@ -93,6 +93,19 @@ export default defineEventHandler(async (event) => {
                     "full_width",
                     "template",
                   ],
+                  block_row_horizontal: [
+                    "id",
+                    "header_layout",
+                    "tagline",
+                    "headline",
+                    "content",
+                    "bg_type",
+                    "bg_color",
+                    "bg_image",
+                    "mouse_aware_bg",
+                    "full_width",
+                    "template",
+                  ],
 
                   block_row_normal: [
                     "id",
@@ -164,6 +177,7 @@ export default defineEventHandler(async (event) => {
                   ],
                   block_richtext: [
                     "id",
+                    "template",
                     "tagline",
                     "headline",
                     "content",

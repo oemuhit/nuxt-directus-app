@@ -71,7 +71,7 @@ const getComponentProps = (field: FormField) => {
           </TooltipProvider>
         </div>
         <span v-if="field.required" class="text-sm text-gray-400"
-          >*Required</span
+          >*Zorunlu</span
         >
       </FormLabel>
       <FormControl class="h-10">

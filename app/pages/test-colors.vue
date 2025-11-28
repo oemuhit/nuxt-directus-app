@@ -1,6 +1,25 @@
 <template>
   <BlockContainer>
     <div class="container mx-auto p-8 overflow-hidden">
+      <div class="flex gap-4 flex-col">
+        <div
+          class="flex gap-4 flex-col md:flex-row justify-center align-center"
+        >
+          <div class="flex-1 text-left ">
+            2. ve 3. TARAH GÖZETİM MUAYENE
+          </div>
+          <div class="flex-1 text-left underline">TAHRİBATLI TESTLER</div>
+        </div>
+        <div
+          class="flex gap-4 flex-col md:flex-row justify-center align-center"
+        >
+          <div class="flex-1 text-left md:text-right">
+            PERİYODİK TEST VE MUAYENELER
+          </div>
+          <div class="flex-1 text-left md:text-right">TAHRİBATSIZ TESTLER</div>
+        </div>
+      </div>
+
       <h1 class="text-3xl font-bold mb-8">Tailwind Renk Testi</h1>
 
       <div class="flex gap-4">

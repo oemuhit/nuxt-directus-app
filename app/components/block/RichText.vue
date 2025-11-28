@@ -34,6 +34,7 @@ const { setAttr } = useVisualEditing();
       ]"
     >
       <Tagline
+        :class="data?.template?.tagline"
         v-if="data.tagline"
         :tagline="data.tagline"
         :data-directus="
@@ -46,6 +47,7 @@ const { setAttr } = useVisualEditing();
         "
       />
       <Headline
+        :class="data?.template?.headline"
         v-if="data.headline"
         :headline="data.headline"
         :data-directus="
@@ -57,7 +59,9 @@ const { setAttr } = useVisualEditing();
           })
         "
       />
-      <Text
+
+      <TypographyProse
+        :class="data?.template?.content"
         v-if="data.content"
         :content="data.content"
         :data-directus="

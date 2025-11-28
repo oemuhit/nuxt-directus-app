@@ -22,7 +22,7 @@ withDefaults(defineProps<HeadlineProps>(), {
         'text-4xl xs:text-5xl md:text-7xl  dark:drop-shadow-sm':
           size === 'title',
       },
-      'font-display font-semibold leading-snug tracking-tight color-em dark:text-white',
+      'font-display font-semibold leading-snug tracking-tight color-em dark:text-white font-heading',
     ]"
     v-html="content"
   />

@@ -5,13 +5,13 @@
       :while-in-view="visibleMainVariants"
       :transition="{
         duration: props.duration,
-        delay: props.delay * 2,
+        delay: props.delay * 1.5,
       }"
     >
       <slot />
     </Motion>
     <Motion
-      class="box-background absolute inset-0 z-20"
+      class="box-background absolute z-20 h-2 bottom-0 left-0 right-0"
       :initial="initialSlideVariants"
       :while-in-view="visibleSlideVariants"
       :transition="{

@@ -13,94 +13,6 @@ const items = computed(() => {
   if (!unref(props.data?.items)) return [];
   return unref(props.data)?.items as BlockCardMenuItem[];
 });
-let activeIndex = -1;
-
-const gallery = ref<HTMLElement | null>(null);
-const panels = ref<HTMLElement[]>([]);
-
-onMounted(() => {
-  gallery.value = document.getElementById("gallery");
-  panels.value = Array.from(
-    gallery.value?.querySelectorAll(".panel") || []
-  ) as HTMLElement[];
-  panels.value.forEach((p, i) => {
-    p.addEventListener("mouseenter", () => {
-      activeIndex = i;
-      applyLayout();
-    });
-    p.addEventListener("focus", () => {
-      activeIndex = i;
-      applyLayout();
-    });
-    p.addEventListener("mouseleave", () => {
-      activeIndex = -1;
-      applyLayout();
-    });
-    p.addEventListener("blur", () => {
-      activeIndex = -1;
-      applyLayout();
-    });
-  });
-
-  applyLayout();
-});
-
-function applyLayout() {
-  panels.value.forEach((p, i) => {
-    if (activeIndex === -1) {
-      (p as HTMLElement).style.flex = "2";
-      p.classList.remove("active", "dimmed");
-    } else if (i === activeIndex) {
-      (p as HTMLElement).style.flex = "5";
-      p.classList.add("active");
-      p.classList.remove("dimmed");
-    } else {
-      (p as HTMLElement).style.flex = "1.6";
-      p.classList.add("dimmed");
-      p.classList.remove("active");
-    }
-  });
-}
-
-function handleResize() {
-  if (!gallery.value || !panels.value.length) return;
-
-  if (window.innerWidth < 768) {
-    // Mobile: Vertical stack layout
-    gallery.value.style.flexDirection = "column";
-    gallery.value.style.height = "auto";
-    panels.value.forEach((p) => {
-      (p as HTMLElement).style.minHeight = "25vh";
-      (p as HTMLElement).style.maxHeight = "25vh";
-      (p as HTMLElement).style.flex = "0 0 auto";
-      (p as HTMLElement).style.width = "100%";
-      p.classList.remove("dimmed", "active");
-    });
-  } else {
-    // Desktop: Horizontal gallery layout
-    gallery.value.style.flexDirection = "row";
-    gallery.value.style.height = "100vh";
-    panels.value.forEach((p) => {
-      (p as HTMLElement).style.minHeight = "";
-      (p as HTMLElement).style.maxHeight = "";
-      (p as HTMLElement).style.width = "";
-    });
-    applyLayout();
-  }
-}
-
-onMounted(() => {
-  window.addEventListener("resize", handleResize);
-  handleResize();
-});
-
-onUnmounted(() => {
-  window.removeEventListener("resize", handleResize);
-});
-
-onBeforeUnmount(() => {
-  window.removeEventListener("resize", handleResize);
-});
 
 function handleClick(item: BlockCardMenuItem) {
   if (item.link) {
@@ -113,22 +25,22 @@ function handleClick(item: BlockCardMenuItem) {
   <div class="relative mx-auto py-12 bg-slate-950 w-full">
     <div class="absolute inset-0 opacity-5 grain-bg dark:opacity-5"></div>
 
-    <div class="flex flex-row justify-center flex-wrap">
+    <div class="flex flex-wrap justify-center">
       <div v-for="item in items" :key="item.id" @click="handleClick(item)">
         <ClientOnly>
           <CardContainer>
             <CardBody
-              class="group/card relative size-auto rounded-sm border border-black/[0.1] bg-gray-50 sm:w-[18rem] dark:border-white/[0.2] dark:bg-black dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1]"
+              class="group/card relative w-full h-full rounded-xs border border-black/[0.1] bg-gray-50 dark:border-white/[0.2] dark:bg-black dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1]"
             >
               <CardItem :translate-z="100" class="w-full relative">
                 <NuxtImg
                   v-if="safeRelationId(item.image)"
-                  class="cursor-pointer h-100 md:h-80 lg:h-60 w-full rounded-sm object-cover group-hover/card:shadow-xl"
+                  class="animate-zoom cursor-pointer w-100 h-100 md:w-80 md:h-80 lg:h-60 lg:w-60 xl:h-[18svw] xl:w-[18svw] rounded-xs object-cover group-hover/card:shadow-xl"
                   :src="safeRelationId(item.image) as string"
                   :alt="item.title || 'Menu item image'"
                 />
                 <div
-                  class="text-white dark:text-white group-hover/card:text-primary group-hover/card:font-black transition-all duration-300 cursor-pointer absolute bottom-0 left-0 right-0 p-4 rounded-b-sm bg-black/50 text-4xl text-center"
+                  class="text-white dark:text-white group-hover/card:text-primary group-hover/card:font-black transition-all duration-300 cursor-pointer absolute bottom-0 left-0 right-0 p-4 rounded-b-xs bg-black/50 text-4xl text-center"
                 >
                   {{ item.headline }}
                 </div>
@@ -250,6 +162,22 @@ function handleClick(item: BlockCardMenuItem) {
 
   to {
     stroke-dashoffset: -15rem;
+  }
+}
+
+.animate-zoom {
+  animation: zoomInOut 6s ease-in-out infinite;
+}
+
+@keyframes zoomInOut {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.97);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 </style>

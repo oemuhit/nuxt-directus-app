@@ -19,7 +19,30 @@ useHead({
     { name: "viewport", content: "width=device-width, initial-scale=1" },
   ],
   link: [{ rel: "icon", href: "/favicon.ico" }],
+
   htmlAttrs: { lang: "en" },
+});
+
+import { onMounted } from "vue";
+// Smooth anchor scrolling using Tailwind for the offset (scroll-margin-top)
+onMounted(() => {
+  document.querySelectorAll('a[href^="#"]').forEach((a) => {
+    a.addEventListener("click", (e) => {
+      e.preventDefault();
+      const hash = a.getAttribute("href");
+      if (typeof hash === "string" && hash.length > 1) {
+        const target = document.querySelector(hash);
+        if (target) {
+          // Apply scroll-margin-top inline if not set (for browsers that don't support it via CSS)
+          if (!(target as HTMLElement).style.scrollMarginTop) {
+            // 140px matches the .anchor-target class, adjust as needed
+            (target as HTMLElement).style.scrollMarginTop = "140px";
+          }
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+    });
+  });
 });
 </script>
 

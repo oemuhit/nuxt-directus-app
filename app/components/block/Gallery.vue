@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ZoomIn, ArrowLeft, ArrowRight, X } from "lucide-vue-next";
+import { motion } from "motion-v";
 
 interface GalleryItem {
   id: string;
@@ -136,7 +137,13 @@ onUnmounted(() => {
         "
         :class="data?.template?.items"
       >
-        <div
+        <motion.div
+          :initial="{ opacity: 0, filter: 'blur(6px)' }"
+          :whileInView="{
+            opacity: 1,
+            filter: 'blur(0px)',
+            transition: { duration: ((index % 6) + 1) * 0.3, ease: 'easeOut' },
+          }"
           v-for="(item, index) in sortedItems"
           :key="item.id"
           class="relative overflow-hidden rounded-lg group hover:shadow-lg transition-all duration-300 cursor-pointer h-[300px]"
@@ -166,7 +173,7 @@ onUnmounted(() => {
           >
             <ZoomIn class="w-10 h-10 text-gray-800" />
           </div>
-        </div>
+        </motion.div>
       </div>
 
       <Dialog v-model:open="isLightboxOpen">

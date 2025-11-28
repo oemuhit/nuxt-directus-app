@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @import "tw-animate-css";
-@source inline("!h-[120px]  grid grid-cols-2 gap-4   [&>*:nth-child(2n):not(:first-child)]:justify-self-end [&>*:nth-child(2n+1):not(:first-child)]:justify-self-start   [&>*:nth-child(2n):not(:first-child)]:justify-self-start [&>*:nth-child(2n+1):not(:first-child)]:justify-self-end [&>*:not(:first-child)]:px-2  [&>*:first-child]:col-span-2 [&>*:first-child]:bg-red-500  [&>*:not(:first-child)]:max-w-xl [&>*:not(:first-child)]:w-full [&>*:not(:first-child)]:mx-auto [&>*:first-child]:w-full grid grid-cols-3 gap-4 p-4  [&>*:first-child]:col-span-3 [&>*:first-child]:-mx-4 grid grid-cols-1 md:grid-cols-2 gap-4 [&>*:first-child]:md:col-span-2 grid grid-rows-1 md:grid-rows-2  grid grid-cols-1 md:grid-cols-2 text-3xl md:text-4xl lg:text-5xl   text-white dark:text-white text-3xl lg:text-4xl xl:text-5xl text-4xl lg:text-4xl !text-3xl lg:!text-3xl !opacity-0 md:!fixed min-h-50vh hover:shadow-none !text-black group-hover:opacity-0 grid-cols-2 sm:grid-cols-4 md:grid-cols-6 text-xl md:text-2xl lg:!text-3xl rounded-md rounded-sm rounden-none text-lg md:text-xl lg:text-xl xl:text-2xl text-xl md:text-2xl lg:text-2xl xl:text-3xl text-2xl md:text-3xl lg:text-3xl xl:text-4xl md:text-4xl lg:text-4xl xl:text-5xl  py-[0rem] !py-0 text-green-100 text-green-400 text-accent !text-accent !text-primary !text-orange-800 dark:!text-orange-800  min-h-screen text-xl text-2xl text-3xl text-4xl text-5xl text-6xl text-7xl font-bold");
+@source inline("text-gray-800 md:text-7xl md:!text-7xl [&_a:hover]:text-white !text-gray-800 border-b-2 invisible xl:text-[100px]  [&_h3>strong]:text-black md:text-headline-anfen dark:text-gray-800 dark:!text-gray-800 text-gray-800  dark:text-black text-black text-headline lg:text-[100px] !font-black  text-[100px] font-semibold !h-[120px] my-8  !font-bold !font-normal md:[&>*]:col-span-1  [&>*]:col-span-2  col-span-2 md:col-span-1 grid grid-cols-2 gap-4   [&>*:nth-child(2n):not(:first-child)]:justify-self-end [&>*:nth-child(2n+1):not(:first-child)]:justify-self-start   [&>*:nth-child(2n):not(:first-child)]:justify-self-start [&>*:nth-child(2n+1):not(:first-child)]:justify-self-end [&>*:not(:first-child)]:px-2  [&>*:first-child]:col-span-2 [&>*:first-child]:bg-red-500  [&>*:not(:first-child)]:max-w-xl [&>*:not(:first-child)]:w-full [&>*:not(:first-child)]:mx-auto [&>*:first-child]:w-full grid grid-cols-3 gap-4 p-4  [&>*:first-child]:col-span-3 [&>*:first-child]:-mx-4 grid grid-cols-1 md:grid-cols-2 gap-4 [&>*:first-child]:md:col-span-2 grid grid-rows-1 md:grid-rows-2  grid grid-cols-1 md:grid-cols-2 text-3xl md:text-4xl lg:text-5xl   text-white dark:text-white text-3xl lg:text-4xl xl:text-5xl text-4xl lg:text-4xl !text-3xl lg:!text-3xl !opacity-0 md:!fixed min-h-50vh  min-h-[75vh] hover:shadow-none !text-black group-hover:opacity-0 grid-cols-2 sm:grid-cols-4 md:grid-cols-6 text-xl md:text-2xl lg:!text-3xl rounded-md rounded-sm rounden-none text-lg md:text-xl lg:text-xl xl:text-2xl text-xl md:text-2xl lg:text-2xl xl:text-3xl text-2xl md:text-3xl lg:text-3xl xl:text-4xl md:text-4xl lg:text-4xl xl:text-5xl  py-[0rem] !py-0 text-green-100 text-green-400 text-accent !text-accent !text-primary !text-orange-800 dark:!text-orange-800  min-h-screen text-xl text-2xl text-3xl text-4xl text-5xl text-6xl text-7xl font-bold");
 
 @plugin "@tailwindcss/typography";
 
@@ -14,7 +14,7 @@
   --card-foreground: #1a1a19;
   --popover: #ffffff;
   --popover-foreground: #2b2818;
-  --primary: #e45727;
+  --primary: rgb(242, 139, 0);
   --primary-foreground: #ffffff;
   --secondary: #ece7d9;
   --secondary-foreground: #565343;
@@ -74,7 +74,7 @@
   --card-foreground: #fbfaf4;
   --popover: #30302e;
   --popover-foreground: #e6e6e1;
-  --primary: #f36a3d;
+  --primary: rgb(242, 139, 0);
   --primary-foreground: #ffffff;
   --secondary: #fbfaf4;
   --secondary-foreground: #30302e;
@@ -185,7 +185,10 @@
   --radius-xl: calc(var(--radius) + 4px);
 
   /* Fonts */
-  --font-heading: "Goldman", sans-serif;
+  --font-heading: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-heading-menu: "Roboto", sans-serif;
   --font-sans: "Exo 2", sans-serif;
   --font-code: "Fira Mono", monospace;
 
@@ -197,7 +200,7 @@
   --text-h1: 56px;
   --text-h2: 36px;
   --text-h3: 24px;
-  --text-description: 16px;
+  --text-description: 24px;
   --text-regular: 16px;
   --text-bold: 16px;
   --text-nav: 20px;
@@ -396,6 +399,10 @@ html.light {
       @apply bg-[#172940] text-white hover:bg-accent;
     }
   } */
+
+  .prose h3 strong {
+    font-family: var(--font-heading);
+  }
 }
 
 @layer utilities {
@@ -404,6 +411,9 @@ html.light {
   }
 }
 
-.grain-bg {
+/* .grain-bg {
   background-image: url(../../images/noise.png);
+} */
+.anchor-target {
+  scroll-margin-top: 120px;
 }

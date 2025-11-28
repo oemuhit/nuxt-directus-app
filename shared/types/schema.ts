@@ -196,7 +196,21 @@ export interface BlockRowVertical {
   full_width: boolean | null;
   template: string | null;
 }
-
+export interface BlockRowHorizontal {
+  id: string;
+  status: "published" | "draft" | "archived";
+  tagline: string | null;
+  headline: string | null;
+  content: string | null;
+  bg_type: string | null;
+  /*   button: string | BlockButton | null; */
+  bg_color: string | null;
+  bg_image: string | DirectusFile | null;
+  mouse_aware_bg: boolean | null;
+  full_width: boolean | null;
+  template: string | null;
+  header_layout: string | null;
+}
 export interface BlockRowNormal {
   id: string;
   tagline: string | null;
@@ -321,6 +335,7 @@ export interface BlockRichtext {
   user_created?: DirectusUser | string | null;
   date_updated?: string | null;
   user_updated?: DirectusUser | string | null;
+  template: string | null;
 }
 
 export interface FormField {

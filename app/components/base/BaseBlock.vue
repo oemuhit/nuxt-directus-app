@@ -29,6 +29,7 @@ const components: Record<string, any> = {
   block_steps: resolveComponent("Steps"),
   block_cta: resolveComponent("Cta"),
   block_row_vertical: resolveComponent("RowVertical"),
+  block_row_horizontal: resolveComponent("RowHorizontal"),
   block_row_sequential: resolveComponent("RowSequential"),
   block_row_normal: resolveComponent("RowNormal"),
   block_faq: resolveComponent("Faq"),
